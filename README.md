@@ -1,6 +1,9 @@
 # peakIt
 
-## How to project:
+## About:
+This project creates a responsive, single-page website with different animations.
+
+## How to run the project:
 
 ```bash
 # Clone the project's repository:
