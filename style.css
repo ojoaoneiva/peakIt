@@ -1,0 +1,252 @@
+/* Root Variables */
+:root {
+    --color-1: #002340;
+    --color-2: #9B93FF;
+    --color-3: #D5FFAB;
+}
+
+/* Font Faces */
+@font-face {
+    font-family: 'TT Hoves';
+    src: url('assets/fonts/TT Hoves Pro/woff2/TT-Hoves-Regular.woff2') format('woff2'),
+         url('assets/fonts/TT Hoves Pro/woff/TT-Hoves-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Hoves';
+    src: url('assets/fonts/TT Hoves Pro/woff2/TT-Hoves-Bold.woff2') format('woff2'),
+         url('assets/fonts/TT Hoves Pro/woff/TT-Hoves-Bold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 200vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+header > div {
+    position: absolute;
+    top: 5vh;
+    right: 20vw;
+    z-index: 10;
+    color: white;
+}
+
+/* Location */
+.location {
+    font-weight: 400;
+    font-size: clamp(0.5rem, 1vw, 1.5rem);
+    display: flex;
+    color: #FFFFFFB8;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.location.visible {
+    opacity: 1;
+}
+
+.location .time {
+    color: white;
+    margin-left: 3px;
+}
+
+/* Navbar */
+nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 2vw;
+    display: flex;
+    z-index: 10;
+    background-color: #FFFFFF29;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+nav button {
+    background-color: var(--color-1);
+    padding: 1vw;
+    font-size: 1vw;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+nav.visible {
+    opacity: 1;
+}
+
+nav div {
+    padding: 1vw;
+}
+
+nav .logo {
+    width: 2vw;
+}
+
+/* Section #1 */
+#section1 {
+    width: 100%;
+    height: 100vh;
+    color: white;
+    position: relative;
+}
+
+#section1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#section1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #00234000, #00234066);
+    z-index: 1;
+}
+
+#section1 div {
+    z-index: 10;
+}
+
+/* Title Styles */
+.title {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.title h2 {
+    font-family: 'TT Hoves', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 3.2vw, 5rem);
+    line-height: 1.2;
+    color: #fff;
+    overflow: hidden;
+}
+
+.title h2 span {
+    display: inline-block;
+    transform: translateY(80%);
+    opacity: 0;
+}
+
+/* Scroll Indicator */
+#scroll-indicator {
+    opacity: 0;
+    transition: opacity 1s ease;
+    position: absolute;
+    top: 90vh;
+    left: 5vw;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+#scroll-indicator.visible {
+    opacity: 1;
+}
+
+#scroll-indicator p {
+    width: 100px;
+}
+
+#scroll-indicator div {
+    width: 50px;
+}
+
+/* Container 1 */
+.container-1 {
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+    display: flex;
+    gap: 15vw;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.container-1.visible {
+    opacity: 1;
+}
+
+/* Container 2 */
+.container-2 {
+    position: absolute;
+    z-index: 10;
+    top: 93vh;
+    right: 5vw;
+    width: 45vw;
+    font-weight: 400;
+    font-family: 'TT Hoves', sans-serif;
+    font-size: clamp(1.8rem, 2.5vw, 4rem);
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.container-2.visible {
+    opacity: 1;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    header > div {
+        top: 5vh;
+        left: 5vw;
+    }
+
+    #section1 .container-1 {
+        top: 30vh;
+        left: 5vw;
+    }
+
+    .title h2 {
+        font-size: clamp(1.7rem, 3.2vw, 4rem);
+    }
+
+    .location {
+        font-size: clamp(0.8rem, 1vw, 1.5rem);
+        width: 8rem;
+        display: block;
+        white-space: normal;
+    }
+
+    nav {
+        top: 5vh;
+        right: 5vw;
+        margin: 0;
+    }
+
+    nav button {
+        padding: 4vw;
+        font-size: 4vw;
+    }
+
+    nav div {
+        padding: 0.7rem 1.3rem;
+    }
+
+    nav .logo {
+        width: 2rem;
+    }
+}
