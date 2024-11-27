@@ -156,11 +156,12 @@ nav .logo {
     opacity: 0;
     transition: opacity 1s ease;
     position: absolute;
-    top: 90vh;
+    bottom: 4vh;
     left: 5vw;
     display: flex;
     align-items: center;
     font-size: 12px;
+    z-index: 10;
 }
 
 #scroll-indicator.visible {
@@ -171,8 +172,9 @@ nav .logo {
     width: 100px;
 }
 
-#scroll-indicator div {
+#scroll-indicator div img {
     width: 50px;
+    height: auto;
 }
 
 /* Container 1 */
