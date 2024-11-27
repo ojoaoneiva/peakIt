@@ -223,7 +223,7 @@ nav .logo {
     }
 
     .title h2 {
-        font-size: clamp(1.7rem, 3.2vw, 4rem);
+        font-size: clamp(1.4rem, 3.2vw, 4rem);
     }
 
     .location {
@@ -245,10 +245,19 @@ nav .logo {
     }
 
     nav div {
-        padding: 0.7rem 1.3rem;
+        padding: 0.5rem 1rem;
     }
 
     nav .logo {
         width: 2rem;
+    }
+
+    .container-2 {
+        width: 90vw;
+        font-size: clamp(1.4rem, 2.5vw, 4rem);
+    }
+
+    #scroll-indicator {
+        bottom: 15vh;
     }
 }
