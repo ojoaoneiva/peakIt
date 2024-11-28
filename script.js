@@ -17,7 +17,7 @@ function preloadImages(folder, totalFrames) {
   return Array.from({ length: totalFrames }, (_, i) => {
     const frameNumber = String(i).padStart(5, '0');
     const img = new Image();
-    img.src = `assets/${folder}/${folder}_${frameNumber}.png`;
+    img.src = `assets/${folder}/${folder}_${frameNumber}.webp`;
     return img;
   });
 }
@@ -56,18 +56,18 @@ function playSequence(images, totalDuration, effect, onComplete) {
         imgElement.src = image.src;
 
         // Show elements based on specific frames
-        if (image.src.includes('Sequence_cam_01_00000.png') && !container1.classList.contains('visible')) {
+        if (image.src.includes('Sequence_cam_01_00000.webp') && !container1.classList.contains('visible')) {
           container1.classList.add('visible');
           animateLetters();
         }
-        if (image.src.includes('Sequence_cam_01_00180.png') && !location1.classList.contains('visible')) {
+        if (image.src.includes('Sequence_cam_01_00180.webp') && !location1.classList.contains('visible')) {
           location1.classList.add('visible');
         }
-        if (image.src.includes('Sequence_cam_01_00230.png') && !navbar.classList.contains('visible')) {
+        if (image.src.includes('Sequence_cam_01_00230.webp') && !navbar.classList.contains('visible')) {
           navbar.classList.add('visible');
           scrollIndicator.classList.add('visible');
         }
-        if (image.src.includes('Sequence_cam_01_00300.png') && !container2.classList.contains('visible')) {
+        if (image.src.includes('Sequence_cam_01_00300.webp') && !container2.classList.contains('visible')) {
           container2.classList.add('visible');
           animateContainer2();
         }
@@ -131,8 +131,8 @@ Promise.all(
     const totalDuration = 10000; // Total duration of the animation (10 seconds)
     
     // Play the first sequence (35% duration) then the second sequence (65% duration)
-    playSequence(preloadedSequences[0], totalDuration * 0.35, "exponential-decelerate", () =>
-      playSequence(preloadedSequences[1], totalDuration * 0.65, "exponential-accelerate")
+    playSequence(preloadedSequences[0], totalDuration * 0.4, "exponential-decelerate", () =>
+      playSequence(preloadedSequences[1], totalDuration * 0.6, "exponential-accelerate")
     );
   })
   .catch(err => console.error("Error loading images:", err));
