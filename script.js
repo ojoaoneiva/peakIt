@@ -339,16 +339,27 @@ async function handlePhase1(delta) {
   sectionPosition -= delta;
   container2Position = Math.min(Math.max(sectionPosition - 100, -100), 0);
 
-  if (sectionPosition <= 100 && scrollDirection === 1) {
+  const isMobileOrTablet = window.matchMedia("(max-width: 768px)").matches;
+  const scrollIndicator = document.getElementById("scroll-indicator");
+
+  if (scrollDirection === 1) {
     triggerGSAPAnimation2(imgElement, { scale: 1.2, filter: "blur(10px)" });
     triggerGSAPAnimation2(location1, { y: "-500%", opacity: 0, display: "none" });
     triggerGSAPAnimation2(container1, { y: "-200%", opacity: 0, display: "none" });
     triggerGSAPAnimation2(container2, { y: `${container2Position}%`, duration: 0.2 });
+
+    if (isMobileOrTablet) {
+      triggerGSAPAnimation2(scrollIndicator, { bottom: null, top: "5vh", duration: 1 });
+    }
     phase = 2;
   } else {
     triggerGSAPAnimation2(imgElement, { scale: 1, filter: "blur(0px)" });
     triggerGSAPAnimation2(location1, { y: "0", opacity: 1, display: "block" });
     triggerGSAPAnimation2(container1, { y: "0", opacity: 1, display: "block" });
+    triggerGSAPAnimation2(container2, { y: `${container2Position}%`, duration: 0.2 });
+    if (isMobileOrTablet) {
+      triggerGSAPAnimation2(scrollIndicator, { bottom: "4vh", top: null, duration: 1 });
+    }
     phase = 1;
   }
 }
@@ -373,8 +384,8 @@ async function handlePhase2(delta) {
     renderKeycapImagesFrom1To180();
     triggerGSAPAnimation('section2', "120%", 1);
     triggerGSAPAnimation('section1', "0", 1);
-    triggerGSAPAnimation('keyboard-sequence', "0%", 1);
-    triggerGSAPAnimation('PC-sequence', "-150%", 1);
+    // triggerGSAPAnimation('keyboard-sequence', "0%", 1);
+    // triggerGSAPAnimation('PC-sequence', "-150%", 1);
     updateStylesForPhase(4);
     phase = 1;
   }
@@ -463,21 +474,23 @@ async function handlePhase4(delta) {
 async function handlePhase5(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
-  sectionPosition = Math.min(Math.max(sectionPosition, -100), 0);
 
   if (sectionPosition <= 0 && scrollDirection === 1) {
     isAnimatingPhase = true;
     await Promise.all([
-      triggerGSAPAnimation2(element('section4'), { scale: 0.8, opacity: 0 }, 2),
+      triggerGSAPAnimation2(element('section4'), { scale: 0.8, }, 2),
       triggerGSAPAnimation2(element('section5'), { opacity: 1 }, 0.2),
       await animateLetters3()
     ]);
     phase = 6;
     isAnimatingPhase = false;
   } else if (scrollDirection === -1) {
-    triggerGSAPAnimation('section4', { scale: 1, opacity: 1 }, 2);
-    triggerGSAPAnimation('section5', { opacity: 0 }, 0.2);
-    phase = 4;
+    isAnimatingPhase = true;
+    await Promise.all([
+      triggerGSAPAnimation2(element('section4'), { scale: 1, }, 2),
+      triggerGSAPAnimation2(element('section5'), { opacity: 0 }, 0.2)
+  ]);
+    phase = 4; isAnimatingPhase = false;
   }
 }
 
@@ -634,10 +647,13 @@ function generateSectionContent(title, description, listItems) {
   `;
 }
 
+
+
 async function handlePhase7(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
   const section6 = element('fade-in-out');
+  const isMobileOrTablet = window.matchMedia('(max-width: 768px)').matches;
 
   if (sectionPosition <= 0 && scrollDirection === 1) {
     isAnimatingPhase = true;
@@ -647,19 +663,49 @@ async function handlePhase7(delta) {
     await delay(500);
     triggerGSAPAnimation('section7', "0%", 1);
     triggerGSAPAnimation('section6', `-100%`, 1);
-    animateLettersAndCards();
+    if (isMobileOrTablet) {
+      animateLettersAndCardsMobile();
+    } else {
+      animateLettersAndCardsDesketop();
+    }
+  } else if (sectionPosition <= 0 && scrollDirection === 1) {
+    triggerGSAPAnimation('section7', "0%", 1);
+    triggerGSAPAnimation('section6', `-100%`, 1);
+    phase = 8;
   } else {
+    // Reverter para o estado inicial
     phase = 6.3;
     triggerGSAPAnimation('section7', "100%", 1);
     triggerGSAPAnimation('section6', `0`, 1);
+
+    // Reverter animações e posições
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => gsap.killTweensOf(card));
+    gsap.set('.s7-title span span', { opacity: 0 });
+    gsap.set('.s7-title:nth-child(1)', { left: 0, opacity: 1 });
+    gsap.set('.s7-title:nth-child(2)', { left: null, right: 0, opacity: 1 });
+
+    gsap.set('#linetop', { left: "0%" });
+    gsap.set('#linebottom', { left: "36%" });
+
+    cards.forEach(card => {
+        gsap.set(card, {
+            x: 0,
+            y: "180%",
+            rotation: 0,
+            rotationY: 0,
+            opacity: 0,
+        });
+    });
+
     section6.innerHTML = generateSectionContent(
-      'Cloud Solutions',
-      'Harness the power of the cloud with our secure and scalable solutions. We help you migrate, manage, and optimize your cloud infrastructure, ensuring agility and resilience in a rapidly changing market.',
+      'Automation',
+      'Streamline your operations with our intelligent automation solutions. We reduce manual workloads, minimise errors, and free up your team to focus on strategic initiatives that drive growth.',
       [
-        { text: 'Cloud Migration & Management', icon: 'V' },
-        { text: 'Enhanced Security Protocols', icon: 'V' },
+        { text: 'Process Optimization', icon: 'V' },
+        { text: 'AI-Driven Workflows', icon: 'V' },
         { text: 'Integration Services', icon: 'V' },
-        { text: 'Global Accessibility & Collaboration', icon: 'V' }
+        { text: 'Scalable Solutions', icon: 'V' }
       ]
     );
     fadeIn(section6);
@@ -669,9 +715,17 @@ async function handlePhase7(delta) {
 
 const cards = document.querySelectorAll(".card");
 
-function animateLettersAndCards() {
+function animateLettersAndCardsDesketop() {
   const allLetters = document.querySelectorAll('.s7-title span span');
   const cards = document.querySelectorAll('.card');
+  gsap.set(cards, {
+    x: 0,
+    y: "180%",
+    rotation: 0,
+    rotationY: 0,
+    opacity: 0,
+  });
+
   gsap.timeline()
     .to(allLetters, { opacity: 1, stagger: 0.05, duration: 0.5, ease: "power2.out" })
     .to('.s7-title:nth-child(1)', { right: 0, opacity: 0.3, duration: 2, ease: "power2.inOut" })
@@ -698,18 +752,171 @@ function animateLettersAndCards() {
     });
 }
 
+function animateLettersAndCardsMobile() {
+  const allLetters = document.querySelectorAll('.s7-title span span');
+  const cards = document.querySelectorAll('.card');
+
+  gsap.set(cards, {
+    x: 0,
+    y: "180%",
+    rotation: 0,
+    rotationY: 0,
+    opacity: 0,
+  });
+
+  const timeline = gsap.timeline();
+
+  timeline
+    .to(allLetters, { opacity: 1, stagger: 0.05, duration: 0.5, ease: "power2.out" })
+    .to('.s7-title:nth-child(1)', { right: 0, opacity: 0.3, duration: 2, ease: "power2.inOut" })
+    .to('.s7-title:nth-child(2)', { right: null, left: 0, opacity: 0.3, duration: 2, ease: "power2.inOut" }, "<")
+    .to('#linetop', { left: '22%', duration: 2, ease: "power2.inOut" }, "<")
+    .to('#linebottom', { left: 0, duration: 2, ease: "power2.inOut" }, "<");
+
+  cards.forEach((card, index) => {
+    timeline.to(card, {
+      y: `${(130 * index)-10 }%`,
+      opacity: 1,
+      duration: 1,
+      delay: index * 0.1,
+      ease: "power3.out",
+    });
+  });
+
+  let currentCardIndex = 0;
+  let isScrolling = false;
+
+  cards.forEach((card) => {
+    card.addEventListener('wheel', (event) => {
+      if (isScrolling) return;
+      isScrolling = true;
+      const direction = event.deltaY > 0 ? 1 : -1;
+
+      if (direction === 1 && currentCardIndex < cards.length - 1) {
+        gsap.to(cards[currentCardIndex + 1], {
+          y: `${(-20 * (currentCardIndex + 1)-10)}%`,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.out"
+        });
+        currentCardIndex++;
+      } else if (direction === -1 && currentCardIndex > 0) {
+        gsap.to(cards[currentCardIndex], {
+          y: `${100 * (currentCardIndex)}%`,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.out"
+        });
+        currentCardIndex--;
+      } else if (direction === 1 && currentCardIndex==cards.length-1) {
+        phase = 8;
+        isAnimatingPhase = false;
+      }
+      setTimeout(() => {
+        isScrolling = false;
+      }, 500);
+    });
+  });
+}
+
+let handlePhase8Mounted = false;
+
 async function handlePhase8(delta) {
   if (isAnimatingPhase) return;
+  const isMobile = window.innerWidth <= 768;
+
+  const shapeClipMobile = {
+    x: '-3000%',
+    y: '-200%',
+    scale: 50,
+    duration: 0.01,
+  };
+
+  const sectionTitleMobile = {
+    scale: 1.1,
+    x: '0%',
+    duration: 1.2,
+  };
 
   sectionPosition -= delta;
 
   if (sectionPosition <= 0 && scrollDirection === 1) {
-    isAnimatingPhase = true;
+    if (!handlePhase8Mounted) {
+      isAnimatingPhase = true;
 
-    triggerGSAPAnimation('section8', "0%", 1);
-    triggerGSAPAnimation('section7', `-100%`, 1);
-    await delay(800);
-    gsap.to("#shape-clip", {
+      triggerGSAPAnimation('section8', "0%", 1);
+      triggerGSAPAnimation('section7', `-100%`, 1);
+      await delay(800);
+      
+      gsap.to("#shape-clip", isMobile ? shapeClipMobile : {
+        x: '-700%',
+        y: '-300%',
+        scale: 30,
+        opacity: 1,
+        duration: 0.01,
+        ease: "power2.inOut",
+      });
+
+      gsap.to("#section8-title", {
+        scale: 1.2,
+        x: '0%',
+        opacity: 0,
+        duration: 1.5,
+        ease: "power2.inOut",
+      });
+
+      gsap.to("#section8-title", {
+        filter: "blur(20px)",
+        opacity: 0,
+        duration: 1.5,
+        ease: "power2.inOut",
+      });
+
+      gsap.to("#background-image", {
+        scale: 1.2,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.inOut",
+      });
+
+      await delay(800);
+
+      await new Promise(resolve => {
+        gsap.to("#shape-clip", {
+          x: isMobile ? '-5%' : '50%',
+          y: isMobile ? '15%' : '20%',
+          scale: isMobile ? 0.7 : 0.8,
+          opacity: 1,
+          duration: 2,
+          ease: "power2.inOut",
+          onComplete: resolve,
+        });
+        gsap.to("#background-image", {
+          scale: isMobile ? 1 : 0.8,
+          x: isMobile ? '0%' : '25%',
+          duration: 1.8,
+          delay: 0.8,
+          ease: "power2.inOut",
+          onComplete: resolve,
+        });
+      });
+
+      phase = 10;
+      handlePhase8Mounted = true;
+      isAnimatingPhase = false;
+    } else {
+      triggerGSAPAnimation('section8', "0%", 1);
+      triggerGSAPAnimation('section7', `-100%`, 1);
+      phase = 10;
+    }
+  } else {
+    triggerGSAPAnimation('section8', "100%", 1);
+    triggerGSAPAnimation('section7', `0`, 1);
+    await delay(1000);
+    phase = 7;
+    handlePhase8Mounted = false;
+
+    gsap.to("#shape-clip", isMobile ? shapeClipMobile : {
       x: '-700%',
       y: '-300%',
       scale: 30,
@@ -717,66 +924,39 @@ async function handlePhase8(delta) {
       duration: 0.01,
       ease: "power2.inOut",
     });
-    gsap.to("#section8-title", {
-      scale: 1.2,
-      opacity: 0,
-      duration: 1.5,
-      ease: "power2.inOut",
-    });
-    gsap.to("#section8-title", {
-      filter: "blur(20px)",
-      opacity: 0,
-      duration: 1.5,
-      ease: "power2.inOut",
-    });
-    gsap.to("#background-image", {
-      scale: 1.2,
+
+    gsap.to("#section8-title", isMobile ? sectionTitleMobile : {
+      scale: 1,
+      x: '0%',
       opacity: 1,
-      duration: 1.5,
+      duration: 0.01,
+      filter: "blur(0px)",
       ease: "power2.inOut",
     });
 
-    await delay(800);
-
-    await new Promise(resolve => {
-      gsap.to("#shape-clip", {
-        x: '50%',
-        y: '20%',
-        scale: 0.8,
-        opacity: 1,
-        duration: 2,
-        ease: "power2.inOut",
-        onComplete: resolve
-      });
-      gsap.to("#background-image", {
-        scale: 0.8,
-        x: '25%',
-        duration: 1.8,
-        delay: 0.8,
-        ease: "power2.inOut",
-        onComplete: resolve
-      });
+    gsap.to("#background-image", {
+      scale: 1,
+      opacity: 1,
+      x: '0%',
+      duration: 0.01,
+      ease: "power2.inOut",
     });
-    phase = 10;
-    isAnimatingPhase = false;
-  } else {
-    triggerGSAPAnimation('section8', "100%", 1);
-    triggerGSAPAnimation('section7', `0`, 1);
-    phase = 7;
   }
 }
+
 
 let isAnimatingPhase = false;
 let phaseStep = 0;
 
 async function handlePhase10(delta) {
   if (isAnimatingPhase) return;
+  const isMobile = window.innerWidth <= 768;
 
   sectionPosition -= delta;
   if (sectionPosition <= 0 && scrollDirection === 1) {
     if (phaseStep === 0) {
       isAnimatingPhase = true;
-      triggerGSAPAnimation('dancers', "-20%", 1.5);
+      triggerGSAPAnimation('dancers', "-10%", 1.5);
       triggerGSAPAnimation('section10', "0%", 1.5);
       triggerGSAPAnimation('section8', `-100%`, 1.5);
       animateLetters();
@@ -787,29 +967,32 @@ async function handlePhase10(delta) {
     if (phaseStep === 1) {
       isAnimatingPhase = true;
       triggerGSAPAnimation('dancers', "0%", 2);
-      triggerGSAPAnimation('column-section10', `-20%`, 2);
+      triggerGSAPAnimation('column-section10', isMobile? "-80%" : "-20%", 2);
+      triggerGSAPAnimation('section10Title', isMobile? "-80vh" : "0%", 2);
       await delay(2000);
       phase = 11; phaseStep = 0;
       isAnimatingPhase = false;
     }
   } else {
-    phase = 8; phaseStep = 0;
     triggerGSAPAnimation('section10', "100%", 1);
-    triggerGSAPAnimation('section8', `0`, 1);
+    triggerGSAPAnimation('section8', "0%", 1);
     triggerGSAPAnimation('dancers', "-20%", 2);
     triggerGSAPAnimation('column-section10', `0%`, 2);
+    triggerGSAPAnimation('section10Title', isMobile? "0%" : "-80vh", 2);
+    phase = 8; phaseStep = 0;
   }
 }
 
 async function handlePhase11(delta) {
   if (isAnimatingPhase) return;
+  const isMobile = window.innerWidth <= 768;
   sectionPosition -= delta;
 
   if (sectionPosition <= 0 && scrollDirection === 1) {
     if (phaseStep === 0) {
       isAnimatingPhase = true;
       animateLetters();
-      triggerGSAPAnimation('notebook', "-20%", 1.5);
+      triggerGSAPAnimation('notebook', "-10%", 1.5);
       triggerGSAPAnimation('section11', "0%", 1.5);
       triggerGSAPAnimation('section10', `-100%`, 1.5);
       await delay(1000);
@@ -819,7 +1002,8 @@ async function handlePhase11(delta) {
     if (phaseStep === 1) {
       isAnimatingPhase = true;
       triggerGSAPAnimation('notebook', "0%", 2);
-      triggerGSAPAnimation('column-section11', `-20%`, 2);
+      triggerGSAPAnimation('column-section11', isMobile? "-80%" : `-20%`, 2);
+      triggerGSAPAnimation('section11Title', isMobile? "-80vh" : "0%", 2);
       await delay(2000);
       phase = 12; phaseStep = 0; isAnimatingPhase = false;
     }
@@ -829,11 +1013,13 @@ async function handlePhase11(delta) {
     triggerGSAPAnimation('section10', `0`, 1);
     triggerGSAPAnimation('notebook', "-20%", 2);
     triggerGSAPAnimation('column-section11', `0%`, 2);
+    triggerGSAPAnimation('section11Title', isMobile? "0%" : "-80vh", 2);
   }
 }
 
 async function handlePhase12(delta) {
   sectionPosition -= delta;
+  const isMobile = window.innerWidth <= 768;
 
   if (sectionPosition <= 0 && scrollDirection === 1) {
     updateStylesForPhase(2)
@@ -843,7 +1029,7 @@ async function handlePhase12(delta) {
     if (!isRendering) {
       renderLogoImages();
     }
-    phase = 12.2; stopRendering = false; infiniteLoopCanvas = null;
+    phase = 12.2; 
   } else {
     phase = 11;
     triggerGSAPAnimation('section12', "100%", 1.5);
@@ -854,34 +1040,68 @@ async function handlePhase12(delta) {
 
 async function handlePhase12_part2(delta) {
   sectionPosition -= delta;
+  const isMobile = window.innerWidth <= 768;
 
   if (sectionPosition <= 0 && scrollDirection === 1) {
-    triggerGSAPAnimation('section12', "-50vh", 1.5);
-    // triggerGSAPAnimation(document.getElementById('section11'), { y: `-100%` }, 1.5);
+    triggerGSAPAnimation('section12', isMobile? "-80vh" : "-50vh", 1.5);
+    triggerGSAPAnimation('Logo-sequence', isMobile? "80vh" : "50vh", 1.5);
     phase = 12.3;
   } else {
-    phase = 12;
     triggerGSAPAnimation('section12', "0vh", 1);
+    triggerGSAPAnimation('Logo-sequence', "0vh", 1);
+    phase = 12;
   }
   await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 
 async function handlePhase12_part3(delta) {
   sectionPosition -= delta;
+  const isMobile = window.innerWidth <= 768;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
-    triggerGSAPAnimation('section12', "-100vh", 1.5);
-    phase = 13;
+  if (scrollDirection === 1) {
+    if (isMobile) {
+      if (phaseStep === 0) {
+        triggerGSAPAnimation('section12', "-160vh", 1.5);
+        triggerGSAPAnimation('Logo-sequence', "160vh", 1.5);
+        phaseStep = 1;
+      } else if (phaseStep === 1) {
+        triggerGSAPAnimation('section12', "-280vh", 1.5);
+        triggerGSAPAnimation('Logo-sequence', "280vh", 1.5);
+        phase = 13;
+      }
+    } else {
+      triggerGSAPAnimation('section12', "-100vh", 1.5);
+      triggerGSAPAnimation('Logo-sequence', "100vh", 1.5);
+      phase = 13;
+    }
   } else {
-    phase = 12.2;
-    triggerGSAPAnimation('section12', "-50vh", 1.5);
+    if (isMobile) {
+      if (phaseStep == 1) {
+        triggerGSAPAnimation('section12', "-160vh", 1.5);
+        triggerGSAPAnimation('Logo-sequence', "160vh", 1.5);
+        phaseStep = 0;
+      } else {
+        triggerGSAPAnimation('section12', "-80vh", 1.5);
+        triggerGSAPAnimation('Logo-sequence', "80vh", 1.5);
+        phase = 12.2;
+      }
+    } else {
+      triggerGSAPAnimation('section12', "-50vh", 1.5);
+      triggerGSAPAnimation('Logo-sequence', "50vh", 1.5);
+      phase = 12.2;
+    }
   }
+
   await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 
+
 async function handlePhase13(delta) {
   sectionPosition -= delta;
+  const isMobile = window.innerWidth <= 768;
+
   if (sectionPosition <= 0 && scrollDirection === 1) {
+    stopRendering = false; infiniteLoopCanvas = null;
     updateStylesForPhase(4)
     triggerGSAPAnimation('section13', "0%", 1.5);
     triggerGSAPAnimation('section12', `-100%`, 1.5);
@@ -897,9 +1117,15 @@ async function handlePhase13(delta) {
       activatePreviousCard();
     }
     if (activeIndex === 0) {
+      renderLogoImages();
       triggerGSAPAnimation('section13', "100%", 1);
-      triggerGSAPAnimation('section12', `0`, 1);
-      phase = 12.3;
+      if (isMobile) {
+          triggerGSAPAnimation('section12', "-280vh", 1.5);
+          phase = 12.3;
+      } else {
+        triggerGSAPAnimation('section12', "-50vh", 1.5);
+        phase = 12.3;
+      }
     }
   }
 }
@@ -908,6 +1134,8 @@ const cards2 = document.querySelectorAll('.card2');
 let activeIndex = 0;
 
 function activateNextCard() {
+  const isMobile = window.innerWidth <= 768;
+
   if (activeIndex < cards2.length) {
     gsap.to(cards2[activeIndex], {
       duration: 0.8,
@@ -919,9 +1147,9 @@ function activateNextCard() {
     for (let i = 0; i < activeIndex; i++) {
       gsap.to(cards2[i], {
         duration: 0.8,
-        y: `-${(activeIndex - i) * 20}px`,
+        y: isMobile ? `-${(activeIndex - i) * 50}px` : `-${(activeIndex - i) * 20}px`,
         opacity: 1 - (activeIndex - i) * 0.3,
-        scale: 1 - (activeIndex - i) * 0.05,
+        scale: 1 - (activeIndex - i) * 0.1,
         ease: 'power3.out',
       });
     }

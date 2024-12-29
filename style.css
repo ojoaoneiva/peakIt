@@ -206,6 +206,8 @@ nav .logo {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  height: 20vh;
+  margin-left: 1rem;
 }
 
 #section2-top h1 {
@@ -243,6 +245,7 @@ nav .logo {
   opacity: 0;
   transition: opacity 1s ease;
   position: absolute;
+  height: fit-content;
   bottom: 4vh;
   left: 5vw;
   display: flex;
@@ -319,10 +322,6 @@ body.scroll-enabled #section1 {
   flex-direction: column;
   z-index: 10;
   width: 100%;
-}
-
-#section2-top {
-  height: 20vh;
 }
 
 #section3 {
@@ -440,10 +439,6 @@ ul {
   opacity: 0;
 }
 
-.section2-container p {
-  width: 20vw;
-}
-
 .section2-container {
   display: grid;
   grid-template-columns: 30% 40% 30%;
@@ -470,6 +465,7 @@ ul {
 
 #headphones-sequence {
   position: absolute;
+  top: 10%;
   left: 50%;
   transform: translate(-50%, -150%);
   width: 50rem;
@@ -477,14 +473,14 @@ ul {
 
 #PC-sequence {
   position: absolute;
+  top: 10%;
   left: 50%;
-  transform: translate(-50%, -150%);
+  transform: translate(-50%, -100%);
   width: 50rem;
 }
 
 .section2-container p {
   grid-column: 3;
-  width: 100%;
   font-family: 'TT Hoves', sans-serif;
   font-size: clamp(0.5rem, 1.8vw, 4rem);
   font-weight: 400;
@@ -519,8 +515,10 @@ ul {
 
 .card {
   transform: translateY(180%);
-  width: 250px;
-  height: 350px;
+  /* width: 250px;
+  height: 350px; */
+  width: 20rem;
+  height: 25rem;
   background-color: white;
   border: 1px solid #00234029;
   color: #0F151A;
@@ -529,7 +527,7 @@ ul {
   font-weight: bold;
   display: flex;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: absolute;
   transform-origin: center;
@@ -602,7 +600,7 @@ ul {
 
 #linebottom {
   position: relative;
-  left: 42%;
+  left: 36%;
 }
 
 #linetop {
@@ -753,6 +751,7 @@ ul {
 
 #dancers,
 #notebook {
+  scale: 1.2;
   position: absolute;
   top: 0;
   width: 100vw;
@@ -769,13 +768,18 @@ ul {
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 3rem;
+  /* gap: 3rem; */
   z-index: 59;
 }
 
 #column-section10>div>h4,
 #column-section11>div>h4 {
-  margin-bottom: 1rem;
+  margin: 2rem 0;
+}
+
+.border {
+  padding-bottom: 2rem;
+  border-bottom: 2px dashed #9B93FF3D;
 }
 
 #column-section10 p,
@@ -790,6 +794,7 @@ ul {
 }
 
 .profile-card {
+  border: none;
   background-color: #FFFFFF14;
   backdrop-filter: blur(10px);
   border-radius: 1rem;
@@ -824,6 +829,10 @@ ul {
   overflow: hidden;
 }
 
+#section12 h5 {
+  display: none;
+}
+
 #section12-table {
   width: 90%;
   position: absolute;
@@ -856,12 +865,6 @@ ul {
   margin-bottom: 0.5rem;
 }
 
-#section12 p {
-  font-size: clamp(0.8rem, 12px, 4rem);
-  color: #0f151a8f;
-}
-
-
 #Logo-sequence {
   position: absolute;
   transform: translate(25%, 0);
@@ -880,6 +883,15 @@ ul {
   top: 30%;
   width: 35%;
   color: #0F151A;
+}
+
+#section12>span {
+  left: 1rem;
+  position: absolute;
+  top: 40%;
+  width: 90%;
+  color: #0F151A;
+  font-weight: 500;
 }
 
 #section12 h4 {
@@ -994,7 +1006,7 @@ ul {
   overflow: hidden;
   color: #0F151A;
   padding: 4rem 2rem;
-  border-radius: 10px;
+  border-radius: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -1092,12 +1104,17 @@ ul {
   }
 
   #section1 .container-1 {
-    top: 30vh;
-    left: 5vw;
+    top: 0;
+    left: 0;
   }
 
   .title h2 {
     font-size: clamp(1.4rem, 3.2vw, 4rem);
+  }
+
+  .title {
+    margin-top: 20vh;
+    margin-left: 5vw;
   }
 
   .location {
@@ -1134,4 +1151,321 @@ ul {
   #scroll-indicator {
     bottom: 15vh;
   }
+
+  #section3, #section4 {
+    justify-content: center;
+  }
+
+  #section2 {
+    justify-content: flex-end;
+    margin-bottom: 5%;
+  }
+
+  #section3 .section2-container, #section4 .section2-container {
+    display: flex;
+    height: 70%;
+    flex-direction: column;
+    text-align: center;
+    align-self: center;
+  }
+
+  #section2 .section2-container {
+    display: flex;
+    height: 50%;
+    flex-direction: column;
+    text-align: center;
+    align-self: center;
+    margin-bottom: 10%;
+  }
+  
+  .section2-container p {
+    width: 80%;
+    font-size: clamp(1.5rem, 1.5vw, 1.5rem);
+  }
+  
+  #section5 h1 {
+    font-size: clamp(1.8rem, 3vw, 5rem);
+    line-height: 1.2;
+  }
+
+  #section6>div {
+    z-index: 35;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 5vw;
+    align-items: flex-start;
+  }
+
+  #section6>div>div, #section6 li, ul {
+    width: 100%;
+  }
+
+  #section6 p {
+    font-size: clamp(0.9rem, 2vw, 4rem);
+    text-align: center;
+  }
+
+  #section6 li p {
+    font-size: clamp(1.1rem, 2vw, 4rem);
+  }
+
+  #section6 h2 {
+    font-size: clamp(1.8rem, 2vw, 4rem);
+    text-align: center;
+  }
+  
+  .card {
+    width: 90vw;
+    height: 28rem;
+  }
+
+  #message {
+    font-size: clamp(2.3rem, 2.5vw, 4rem);
+    line-height: 3rem;
+  }
+
+  .s7-title:nth-child(1) {
+    position: absolute;
+    top: 15%;
+  }
+
+  .s7-title:nth-child(2) {
+    position: absolute;
+    right: 0;
+    bottom: null;
+    top: 30%;
+  }
+
+  #background-container {
+    top: 0;
+    width: 100%;
+  }
+  
+  #background-container h3 {
+    top: 60%;
+    left: 5%;
+    width: 90%;
+    font-size: clamp(1.7rem, 1.5vw, 4rem);
+  }
+  
+  #background-container p {
+    top: 82%;
+    left: 25%;
+    width: 70%;
+    font-size: clamp(1rem, 12px, 4rem);
+  }
+
+  #section8 h2 {
+    width: 80%;
+    font-size: clamp(2em, 2.5vw, 4rem);
+  }
+
+  #section10,
+#section11 {
+  color: white;
+  background-color: #002340;
+  position: absolute;
+  transform: translateY(100%);
+  height: 100vh;
+  width: 100%;
+  z-index: 55;
+  overflow: hidden;
+}
+
+#section10>div:nth-child(1),
+#section11>div:nth-child(1) {
+  position: absolute;
+  top: 10%;
+}
+
+#dancers,
+#notebook {
+  display: none;
+}
+
+#column-section10,
+#column-section11 {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 90%;
+  gap: 3rem;
+}
+
+#column-section10>div>h4,
+#column-section11>div>h4 {
+  margin-bottom: 1rem;
+}
+
+#column-section10 p,
+#column-section11 p {
+  font-size: clamp(0.7rem, 12px, 4rem);
+  color: #FFFFFFB8;
+}
+
+#column-section10 span,
+#column-section11 span {
+  color: #FFFFFF;
+}
+
+#column-section10>div,
+#column-section11>div {
+  padding-bottom: 3rem;
+  border-bottom: 3px dashed #9B93FF3D;
+}
+
+.titleBlack h2 {
+  font-size: clamp(2.5rem, 3.2vw, 5rem);
+  line-height: 1.2;
+}
+.titleBlack {
+  margin-top: 30%;
+  margin-left: 1rem;
+
+}
+
+#section12 {
+  height: 400vh;
+}
+
+#section12 p {
+  font-size: clamp(1rem, 12px, 4rem);
+}
+
+#section12>p {
+  left: 1rem;
+  top: 35vh;
+  width: 90%;
+}
+
+#section12>span {
+  left: 1rem;
+  position: absolute;
+  top: 50vh;
+  width: 90%;
+  color: #0F151A;
+  font-size: clamp(1.2rem, 12px, 4rem);
+}
+
+#section12-table {
+  top: 50vh;
+  z-index: 60;
+}
+
+#section12-table>tbody>tr {
+  grid-template-columns: 1fr;
+  height: fit-content;
+  padding: 20% 0;
+  border-bottom: 2px dashed #9B93FF3D;
+}
+
+#section12-table td:last-child {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#section12-table td:last-child>p {
+  width: 100%;
+}
+
+#section12-table td:last-child {
+  margin-top: 2rem;
+}
+
+#section12-table td {
+  border-bottom: none;
+  height: fit-content;
+}
+
+#section12 h5 {
+  display: flex;
+  font-size: clamp(1.2rem, 1vw, 4rem);
+  font-weight: 400;
+}
+
+#Logo-sequence {
+  transform: translate(0, 0);
+  width: 100vw;
+  z-index: 62;
+  opacity: 0.8;
+  z-index: 58;
+}
+
+#section13 {
+  padding: 0 4rem 4rem 4rem;
+}
+
+#section13 .title h2 {
+  font-size: clamp(2.1rem, 3.2vw, 4rem);
+}
+
+.card2 {
+  width: 90vw;
+  height: 45vh;
+}
+
+#section14 .title h2 {
+  font-size: clamp(2rem, 3.2vw, 4rem);
+  text-align: center;
+}
+
+#section14 {
+  padding: 4rem;
+  padding-top: 0;
+}
+
+.card3 {
+  width: 90vw;
+  height: 55vh;
+}
+
+.card2 h3 {
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1vw, 5rem);
+  width: 100%;
+}
+
+.card2 p {
+  font-size: clamp(1rem, 12px, 4rem);
+  width: 100%;
+}
+
+#section15>h3 {
+  font-size: clamp(1.1rem, 1vw, 5rem);
+  font-weight: 200;
+  width: 85%;
+  top: 15vh;
+  left: 5vw;
+}
+
+#section15 h2 {
+  width: 50%;
+  margin-top: 15%;
+}
+
+#right-column p {
+  font-size: clamp(0.9rem, 12px, 4rem);
+  color: #FFFFFFB8;
+  margin-top: 1rem;
+}
+
+#right-column {
+  justify-content: space-between;
+  width: 90%;
+  bottom: 3%;
+  top: null;
+  left: 5%;
+}
+
+#right-column li {
+  padding: 2rem 0;
+}
+
+#right-column li h4 {
+  font-size: clamp(1.1rem, 12px, 4rem);
+}
+
 }
