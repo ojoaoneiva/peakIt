@@ -2,10 +2,9 @@
 :root {
   --color-1: #002340;
   --color-2: #9B93FF;
-  --color-3: #D5FFAB;
 }
 
-/* Font Faces */
+/* Fonts */
 @font-face {
   font-family: 'TT Hoves';
   src: url('assets/fonts/TT Hoves Pro/woff2/TT_Hoves_Pro_Regular.woff2') format('woff2'),
@@ -55,32 +54,11 @@ header>div {
   color: white;
 }
 
-/* Location */
-.location {
-  font-weight: 400;
-  font-size: clamp(0.5rem, 1vw, 1.5rem);
-  display: flex;
-  color: #FFFFFFB8;
-  opacity: 0;
-  z-index: 15;
-  transition: opacity 1s ease;
-}
-
-.location.visible {
-  opacity: 1;
-}
-
-.location .time {
-  color: white;
-  margin-left: 3px;
-}
-
 /* Navbar */
 nav {
   position: fixed;
-  top: 0;
-  right: 0;
-  margin: 2vw;
+  top: 5vh;
+  right: 5vw;
   display: flex;
   z-index: 100;
   background-color: #4a4a4a29;
@@ -128,7 +106,30 @@ nav .logo {
   width: 2vw;
 }
 
-/* Section #1 */
+/* Title Styles */
+.title {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.title h2 {
+  font-family: 'TT Hoves', sans-serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 3.2vw, 5rem);
+  line-height: 1.2;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.title h2 span {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform: translateY(80%);
+  opacity: 0;
+}
+
+/* ===================== Section #1 ===================== */
 #section1 {
   width: 100vw;
   height: 100vh;
@@ -180,26 +181,23 @@ nav .logo {
   z-index: 10;
 }
 
-/* Title Styles */
-.title {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.title h2 {
-  font-family: 'TT Hoves', sans-serif;
+.location {
   font-weight: 400;
-  font-size: clamp(2rem, 3.2vw, 5rem);
-  line-height: 1.2;
-  color: #fff;
-  overflow: hidden;
+  font-size: clamp(0.5rem, 12px, 1.5rem);
+  display: flex;
+  color: #FFFFFFB8;
+  opacity: 0;
+  z-index: 15;
+  transition: opacity 1s ease;
 }
 
-.title h2 span {
-  display: inline-block;
-  transform: translateY(80%);
-  opacity: 0;
+.location.visible {
+  opacity: 1;
+}
+
+.location .time {
+  color: white;
+  margin-left: 3px;
 }
 
 #section2-top {
@@ -222,21 +220,7 @@ nav .logo {
 #section2-top h1 span {
   display: inline-block;
   transform: translateY(80%);
-  opacity: 0;
-}
-
-#section5 h1 {
-  font-family: 'TT Hoves', sans-serif;
-  font-weight: 400;
-  font-size: clamp(4rem, 3.2vw, 5rem);
-  line-height: 1.2;
-  color: black;
-  overflow: hidden;
-}
-
-#section5 h1 span {
-  display: inline-block;
-  transform: translateY(80%);
+  will-change: transform, opacity;
   opacity: 0;
 }
 
@@ -304,6 +288,7 @@ nav .logo {
 .container-2 {
   opacity: 0;
   transition: transform 1s ease, opacity 1s ease;
+  will-change: transform, opacity;
 }
 
 body.scroll-enabled #section1 {
@@ -311,11 +296,12 @@ body.scroll-enabled #section1 {
   background-size: 120%;
 }
 
+/* ===================== Section #2 ===================== */
 
-/* section2 */
 #section2 {
   position: absolute;
   transform: translateY(100%);
+  will-change: transform, opacity;
   top: -20vh;
   height: 120vh;
   display: flex;
@@ -323,6 +309,41 @@ body.scroll-enabled #section1 {
   z-index: 10;
   width: 100%;
 }
+
+.section2-container {
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 1rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.section2-container h2 {
+  grid-column: 1;
+  padding-right: 1rem;
+}
+
+#keyboard-sequence {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 50rem;
+}
+
+.section2-container p {
+  grid-column: 3;
+  font-family: 'TT Hoves', sans-serif;
+  font-size: clamp(0.5rem, 1.8vw, 4rem);
+  font-weight: 400;
+  width: 90%;
+  justify-self: end;
+}
+
+/* ===================== Section #3 ===================== */
 
 #section3 {
   background-color: var(--color-1);
@@ -337,6 +358,16 @@ body.scroll-enabled #section1 {
   width: 100%;
 }
 
+#headphones-sequence,
+#PC-sequence {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  width: 50rem;
+}
+
+/* ===================== Section #4 ===================== */
+
 #section4 {
   background-color: white;
   z-index: 25;
@@ -347,6 +378,23 @@ body.scroll-enabled #section1 {
   flex-direction: column;
   gap: 10rem;
   width: 100%;
+}
+
+/* ===================== Section #5 ===================== */
+
+#section5 h1 {
+  font-family: 'TT Hoves', sans-serif;
+  font-weight: 400;
+  font-size: clamp(4rem, 3.2vw, 5rem);
+  line-height: 1.2;
+  color: black;
+  overflow: hidden;
+}
+
+#section5 h1 span {
+  display: inline-block;
+  transform: translateY(80%);
+  opacity: 0;
 }
 
 #section5 {
@@ -364,6 +412,8 @@ body.scroll-enabled #section1 {
   transition: opacity 0.2s;
   overflow: hidden;
 }
+
+/* ===================== Section #6 ===================== */
 
 #section6 {
   z-index: 35;
@@ -439,56 +489,18 @@ ul {
   opacity: 0;
 }
 
-.section2-container {
-  display: grid;
-  grid-template-columns: 30% 40% 30%;
-  height: 100%;
+.canvas-container {
+  position: absolute;
+  grid-column: 2;
+  top: 10%;
+  width: 50%;
+  height: 80%;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
-  padding: 1rem;
-  overflow: hidden;
-  width: 100%;
+  justify-content: center;
 }
 
-.section2-container h2 {
-  grid-column: 1;
-  padding-right: 1rem;
-}
-
-#keyboard-sequence {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  width: 50rem;
-}
-
-#headphones-sequence {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -150%);
-  width: 50rem;
-}
-
-#PC-sequence {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -100%);
-  width: 50rem;
-}
-
-.section2-container p {
-  grid-column: 3;
-  font-family: 'TT Hoves', sans-serif;
-  font-size: clamp(0.5rem, 1.8vw, 4rem);
-  font-weight: 400;
-  width: 90%;
-  justify-self: end;
-}
-
-/* Section 7 */
+/* ===================== Section #7 ===================== */
 #section7 {
   z-index: 40;
   position: absolute;
@@ -499,7 +511,7 @@ ul {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  background-color: #9B93FF;
+  background-color: var(--color-2);
   color: white;
   overflow: hidden;
 }
@@ -515,8 +527,6 @@ ul {
 
 .card {
   transform: translateY(180%);
-  /* width: 250px;
-  height: 350px; */
   width: 20rem;
   height: 25rem;
   background-color: white;
@@ -576,9 +586,18 @@ ul {
   justify-content: center;
   padding: 5rem 0;
   font-family: 'TT Hoves', sans-serif;
-  font-size: clamp(6rem, 2.5vw, 4rem);
+  font-size: clamp(5rem, 2.2vw, 4rem);
   font-weight: 500;
   line-height: 6rem;
+}
+
+.s7-title {
+  position: relative;
+  opacity: 1;
+}
+
+.s7-title span span {
+  opacity: 0;
 }
 
 .s7-title {
@@ -608,16 +627,9 @@ ul {
   left: 0;
 }
 
-.s7-title {
-  position: relative;
-  opacity: 1;
-}
 
-.s7-title span span {
-  opacity: 0;
-}
+/* ===================== Section #8 ===================== */
 
-/* Section 8 */
 #section8 {
   color: white;
   position: absolute;
@@ -629,7 +641,7 @@ ul {
 }
 
 #section8-title {
-  background-color: #002340;
+  background-color: var(--color-1);
   width: 100%;
   height: 100%;
   display: flex;
@@ -649,9 +661,9 @@ ul {
   text-align: center;
 }
 
-:root {
+/* :root {
   --custom-path: path('M140.212 257.873L0 500H187.455L328.21 257.873H140.212Z M448.424 255.097L373.682 384.283H552.001L622.497 263.633L358.864 0H264.056L174.795 154.604H507.142L448.577 254.835V255.097H448.424Z');
-}
+} */
 
 #background-image {
   position: absolute;
@@ -730,17 +742,21 @@ ul {
   pointer-events: none;
 }
 
-/* section 10 and section 11 */
+/* ===================== Section #10 and 11 ===================== */
 #section10,
 #section11 {
   color: white;
-  background-color: #002340;
+  background-color: var(--color-1);
   position: absolute;
   transform: translateY(100%);
   height: 100vh;
   width: 100%;
   z-index: 55;
   overflow: hidden;
+}
+
+#section10Title, #section11Title {
+  z-index: 57;
 }
 
 #section10>div:nth-child(1),
@@ -768,7 +784,6 @@ ul {
   display: flex;
   flex-direction: column;
   height: 100%;
-  /* gap: 3rem; */
   z-index: 59;
 }
 
@@ -784,7 +799,7 @@ ul {
 
 #column-section10 p,
 #column-section11 p {
-  font-size: clamp(0.7rem, 12px, 4rem);
+  font-size: clamp(0.7rem, 14px, 4rem);
   color: #FFFFFFB8;
 }
 
@@ -809,13 +824,13 @@ ul {
   gap: 0.4rem;
 }
 
-
 .profile-card img {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
 }
 
+/* ===================== Section #12 ===================== */
 
 #section12 {
   color: black;
@@ -865,11 +880,19 @@ ul {
   margin-bottom: 0.5rem;
 }
 
-#Logo-sequence {
+.canvas-container2 {
   position: absolute;
-  transform: translate(25%, 0);
-  width: 50rem;
-  z-index: 62;
+  top: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#Logo-sequence {
+  width: 30rem;
+  z-index: 58;
+  opacity: 0.8;
 }
 
 #section12 p {
@@ -899,10 +922,18 @@ ul {
   font-weight: 400;
 }
 
+.titleBlack h2 span {
+  display: inline-block;
+  transform: translateY(80%);
+  opacity: 0;
+}
+
 .titleBlack {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  margin-top: 5vh;
+  margin-left: 5vw;
 }
 
 .titleBlack h2 {
@@ -914,9 +945,11 @@ ul {
   overflow: hidden;
 }
 
+/* ===================== Section #13 ===================== */
+
 #section13 {
   color: #FFFFFF;
-  background-color: #9B93FF;
+  background-color: var(--color-2);
   position: absolute;
   transform: translateY(100vh);
   height: 100%;
@@ -973,9 +1006,16 @@ ul {
   width: 55%;
 }
 
+#section13 .title h2,
+#section14 .title h2 {
+  text-align: center;
+}
+
+/* ===================== Section #14 ===================== */
+
 #section14 {
   color: #FFFFFF;
-  background-color: #002340;
+  background-color: var(--color-1);
   position: absolute;
   transform: translateY(100vh);
   height: 100%;
@@ -1022,6 +1062,8 @@ ul {
   color: #0F151A8F;
   width: 90%;
 }
+
+/* ===================== Section #15 ===================== */
 
 #section15 {
   background: radial-gradient(circle, #00234014, #0023407A);
@@ -1093,10 +1135,278 @@ ul {
   width: 100vw;
   height: 100%;
   object-fit: cover;
-  background-color: #002340;
+  background-color: var(--color-1);
 }
 
-/* Media Queries */
+/* ========================================================== Media Queries - TABLET ======================================================== */
+
+@media (max-width: 1024px) and (orientation: portrait) {
+
+  #section5 h1 {
+    font-size: clamp(2.6rem, 3vw, 5rem);
+  }
+
+  nav button {
+    padding: 1.5rem;
+    font-size: clamp(1rem, 0.5vw, 4rem);
+  }
+
+  nav div {
+    padding: 1rem 1rem;
+  }
+
+  nav .logo {
+    width: 2.5rem;
+  }
+
+  .card {
+    width: 400px;
+    height: 40vh;
+  }
+
+  #message {
+    font-size: clamp(3rem, 2.5vw, 4rem);
+    line-height: 3rem;
+  }
+
+  #container {
+    position: absolute;
+    top: 45%;
+  }
+
+  .s7-title:nth-child(2) {
+    position: absolute;
+    right: 0;
+    top: 30%;
+  }
+
+  #section6>div {
+    z-index: 35;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 5vw;
+    align-items: flex-start;
+  }
+
+  #section6>div>div,
+  #section6 li,
+  ul {
+    width: 100%;
+  }
+
+  #section6 p {
+    font-size: clamp(0.9rem, 2vw, 4rem);
+    text-align: center;
+  }
+
+  #section6 li p {
+    font-size: clamp(1.1rem, 2vw, 4rem);
+  }
+
+  #section6 h2 {
+    font-size: clamp(1.8rem, 2vw, 4rem);
+    text-align: center;
+  }
+
+  #background-container {
+    top: 0;
+    width: 100%;
+  }
+
+  #background-container h3 {
+    top: 60%;
+    left: 5%;
+    width: 90%;
+    font-size: clamp(1.7rem, 1.5vw, 4rem);
+  }
+
+  #background-container p {
+    top: 82%;
+    left: 40%;
+    width: 50%;
+    font-size: clamp(1rem, 12px, 4rem);
+  }
+
+  #section8 h2 {
+    width: 90%;
+    font-size: clamp(2rem, 2.5vw, 4rem);
+  }
+
+  #column-section10,
+  #column-section11 {
+    top: 40%;
+    width: 40%;
+  }
+
+  .profile-card {
+    margin-top: 5%;
+  }
+
+  .titleBlack h2 {
+    font-size: clamp(2.5rem, 3.2vw, 5rem);
+    line-height: 1.2;
+  }
+
+  .titleBlack {
+    margin-top: 10%;
+    margin-left: 1rem;
+  }
+
+  #section12 {
+    height: 400vh;
+  }
+
+  #section12 p {
+    font-size: clamp(1rem, 12px, 4rem);
+  }
+
+  #section12>p {
+    left: 1rem;
+    top: 35vh;
+    width: 90%;
+  }
+
+  #section12>span {
+    left: 1rem;
+    position: absolute;
+    top: 50vh;
+    width: 90%;
+    color: #0F151A;
+    font-size: clamp(1.2rem, 12px, 4rem);
+  }
+
+  #section12-table {
+    top: 50vh;
+    z-index: 60;
+  }
+
+  #section12-table>tbody>tr {
+    grid-template-columns: 1fr;
+    height: fit-content;
+    padding: 20% 0;
+    border-bottom: 2px dashed #9B93FF3D;
+  }
+
+  #section12-table td:last-child {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #section12-table td:last-child>p {
+    width: 100%;
+  }
+
+  #section12-table td:last-child {
+    margin-top: 2rem;
+  }
+
+  #section12-table td {
+    border-bottom: none;
+  }
+
+  #section12 h5 {
+    display: flex;
+    font-size: clamp(1.2rem, 1vw, 4rem);
+    font-weight: 400;
+  }
+
+  .canvas-container2 {
+    top: 20vh;
+  }
+
+  #Logo-sequence {
+    width: 100vw;
+    z-index: 62;
+    opacity: 0.8;
+    z-index: 58;
+  }
+
+  #section13 {
+    padding: 25% 4rem 4rem 4rem;
+  }
+
+  #section13 .title h2,
+  #section14 .title h2 {
+    font-size: clamp(2.71rem, 3.2vw, 4rem);
+  }
+
+  .card2 {
+    width: 40rem;
+    height: 30rem;
+  }
+
+  .card2 h3 {
+    font-size: clamp(1.7rem, 1vw, 5rem);
+  }
+
+  .card2 p {
+    font-size: clamp(1.2rem, 12px, 4rem);
+    width: 100%;
+  }
+
+  #section14 {
+    padding: 4rem;
+    padding-top: 25%;
+  }
+
+  .card3 {
+    width: 30rem;
+    height: 40rem;
+  }
+
+  .card3 h3 {
+    font-size: clamp(1.7rem, 12px, 4rem);
+  }
+
+  .card3 p {
+    font-size: clamp(1.1rem, 12px, 4rem);
+  }
+
+  #section15>h3 {
+    font-size: clamp(1.6rem, 1vw, 5rem);
+    font-weight: 200;
+    width: 65%;
+    top: 5vh;
+    left: 5vw;
+  }
+
+  #section15 h2 {
+    font-size: clamp(2rem, 1vw, 5rem);
+    width: 50%;
+    font-weight: 300;
+    margin-top: 15%;
+  }
+
+  #right-column p {
+    font-size: clamp(1.1rem, 12px, 4rem);
+    color: #FFFFFFB8;
+    margin-top: 1rem;
+  }
+
+  #right-column {
+    justify-content: space-between;
+    width: 90%;
+    bottom: 3%;
+    top: null;
+    left: 5%;
+  }
+
+  #right-column li {
+    padding: 2rem 0;
+  }
+
+  #right-column li h4 {
+    font-size: clamp(1.1rem, 12px, 4rem);
+    font-size: clamp(1.5rem, 12px, 4rem);
+    font-weight: 300;
+  }
+}
+
+/* ========================================================== Media Queries - MOBILE ======================================================== */
+
 @media (max-width: 768px) {
   header>div {
     top: 5vh;
@@ -1106,6 +1416,19 @@ ul {
   #section1 .container-1 {
     top: 0;
     left: 0;
+  }
+
+  nav button {
+    padding: 1rem;
+    font-size: clamp(0.8rem, 0.5vw, 4rem);
+  }
+
+  nav div {
+    padding: 0.5rem 1rem;
+  }
+
+  nav .logo {
+    width: 2rem;
   }
 
   .title h2 {
@@ -1124,25 +1447,6 @@ ul {
     white-space: normal;
   }
 
-  nav {
-    top: 5vh;
-    right: 5vw;
-    margin: 0;
-  }
-
-  nav button {
-    padding: 4vw;
-    font-size: 4vw;
-  }
-
-  nav div {
-    padding: 0.5rem 1rem;
-  }
-
-  nav .logo {
-    width: 2rem;
-  }
-
   .container-2 {
     width: 90vw;
     font-size: clamp(1.4rem, 2.5vw, 4rem);
@@ -1152,8 +1456,23 @@ ul {
     bottom: 15vh;
   }
 
-  #section3, #section4 {
+  #section3,
+  #section4 {
     justify-content: center;
+  }
+
+  #headphones-sequence,
+  #PC-sequence {
+    top: 10%;
+    width: 40rem;
+  }
+
+  #keyboard-sequence {
+    width: 40rem;
+  }
+
+  #section2-top h1 {
+    font-size: clamp(3rem, 3.2vw, 5rem);
   }
 
   #section2 {
@@ -1161,7 +1480,8 @@ ul {
     margin-bottom: 5%;
   }
 
-  #section3 .section2-container, #section4 .section2-container {
+  #section3 .section2-container,
+  #section4 .section2-container {
     display: flex;
     height: 70%;
     flex-direction: column;
@@ -1177,82 +1497,50 @@ ul {
     align-self: center;
     margin-bottom: 10%;
   }
-  
+
   .section2-container p {
     width: 80%;
-    font-size: clamp(1.5rem, 1.5vw, 1.5rem);
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
   }
-  
+
   #section5 h1 {
     font-size: clamp(1.8rem, 3vw, 5rem);
     line-height: 1.2;
   }
 
-  #section6>div {
-    z-index: 35;
-    width: 100%;
-    height: 80%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 5vw;
-    align-items: flex-start;
-  }
-
-  #section6>div>div, #section6 li, ul {
-    width: 100%;
-  }
-
-  #section6 p {
-    font-size: clamp(0.9rem, 2vw, 4rem);
-    text-align: center;
-  }
-
-  #section6 li p {
-    font-size: clamp(1.1rem, 2vw, 4rem);
-  }
-
-  #section6 h2 {
-    font-size: clamp(1.8rem, 2vw, 4rem);
-    text-align: center;
-  }
-  
   .card {
+    max-width: 400px;
     width: 90vw;
-    height: 28rem;
+    height: 45vh;
   }
 
   #message {
-    font-size: clamp(2.3rem, 2.5vw, 4rem);
-    line-height: 3rem;
+    font-size: clamp(2.0rem, 2.2vw, 4rem);
   }
 
   .s7-title:nth-child(1) {
-    position: absolute;
     top: 15%;
   }
 
   .s7-title:nth-child(2) {
-    position: absolute;
     right: 0;
-    bottom: null;
-    top: 30%;
+    top: 35%;
   }
 
   #background-container {
     top: 0;
     width: 100%;
   }
-  
+
   #background-container h3 {
     top: 60%;
     left: 5%;
     width: 90%;
-    font-size: clamp(1.7rem, 1.5vw, 4rem);
+    font-size: clamp(1.2rem, 1.5vw, 4rem);
   }
-  
+
   #background-container p {
-    top: 82%;
+    top: 80%;
     left: 25%;
     width: 70%;
     font-size: clamp(1rem, 12px, 4rem);
@@ -1264,208 +1552,125 @@ ul {
   }
 
   #section10,
-#section11 {
-  color: white;
-  background-color: #002340;
-  position: absolute;
-  transform: translateY(100%);
-  height: 100vh;
-  width: 100%;
-  z-index: 55;
-  overflow: hidden;
-}
+  #section11 {
+    color: white;
+    background-color: var(--color-1);
+    position: absolute;
+    transform: translateY(100%);
+    height: 100vh;
+    width: 100%;
+    z-index: 55;
+    overflow: hidden;
+  }
 
-#section10>div:nth-child(1),
-#section11>div:nth-child(1) {
-  position: absolute;
-  top: 10%;
-}
+  #section10>div:nth-child(1),
+  #section11>div:nth-child(1) {
+    position: absolute;
+    top: 10%;
+  }
 
-#dancers,
-#notebook {
-  display: none;
-}
+  #dancers,
+  #notebook {
+    display: none;
+  }
 
-#column-section10,
-#column-section11 {
-  position: absolute;
-  top: 50%;
-  left: 5%;
-  width: 90%;
-  gap: 3rem;
-}
+  #column-section10,
+  #column-section11 {
+    position: absolute;
+    top: 40%;
+    left: 5%;
+    width: 90%;
+    gap: 3rem;
+  }
 
-#column-section10>div>h4,
-#column-section11>div>h4 {
-  margin-bottom: 1rem;
-}
+  #column-section10>div>h4,
+  #column-section11>div>h4 {
+    margin-bottom: 1rem;
+  }
 
-#column-section10 p,
-#column-section11 p {
-  font-size: clamp(0.7rem, 12px, 4rem);
-  color: #FFFFFFB8;
-}
+  #column-section10 p,
+  #column-section11 p {
+    font-size: clamp(0.7rem, 12px, 4rem);
+    color: #FFFFFFB8;
+    margin-top: 10px;
+  }
 
-#column-section10 span,
-#column-section11 span {
-  color: #FFFFFF;
-}
+  #column-section10 span,
+  #column-section11 span {
+    color: #FFFFFF;
+  }
 
-#column-section10>div,
-#column-section11>div {
-  padding-bottom: 3rem;
-  border-bottom: 3px dashed #9B93FF3D;
-}
+  #column-section10>div,
+  #column-section11>div {
+    padding-bottom: 1.5rem;
+    border-bottom: 3px dashed #9B93FF3D;
+  }
 
-.titleBlack h2 {
-  font-size: clamp(2.5rem, 3.2vw, 5rem);
-  line-height: 1.2;
-}
-.titleBlack {
-  margin-top: 30%;
-  margin-left: 1rem;
+  #section13 {
+    padding: 0 4rem 4rem 4rem;
+  }
 
-}
+  .card2 {
+    width: 90vw;
+    height: 45vh;
+  }
 
-#section12 {
-  height: 400vh;
-}
+  .titleBlack {
+    margin-top: 25%;
+  }
 
-#section12 p {
-  font-size: clamp(1rem, 12px, 4rem);
-}
+  .titleBlack h2 {
+    top: 40%;
+    font-size: clamp(2rem, 3.2vw, 4rem);
+  }
+  
+  #section14 .title h2, #section13 .title h2 {
+    font-size: clamp(1.7rem, 3.2vw, 4rem);
+    text-align: center;
+  }
 
-#section12>p {
-  left: 1rem;
-  top: 35vh;
-  width: 90%;
-}
+  #section14 {
+    padding: 4rem;
+    padding-top: 0;
+  }
 
-#section12>span {
-  left: 1rem;
-  position: absolute;
-  top: 50vh;
-  width: 90%;
-  color: #0F151A;
-  font-size: clamp(1.2rem, 12px, 4rem);
-}
+  .card3 {
+    width: 90vw;
+    height: 55vh;
+  }
 
-#section12-table {
-  top: 50vh;
-  z-index: 60;
-}
+  .card3 h3 {
+    font-size: clamp(1.4rem, 12px, 4rem);
+  }
 
-#section12-table>tbody>tr {
-  grid-template-columns: 1fr;
-  height: fit-content;
-  padding: 20% 0;
-  border-bottom: 2px dashed #9B93FF3D;
-}
+  .card2 h3 {
+    font-weight: 400;
+    font-size: clamp(1.3rem, 1vw, 5rem);
+    width: 100%;
+  }
 
-#section12-table td:last-child {
-  flex-direction: column;
-  gap: 1rem;
-}
+  .card2 p {
+    font-size: clamp(1rem, 12px, 4rem);
+    width: 100%;
+  }
 
-#section12-table td:last-child>p {
-  width: 100%;
-}
+  #section15>h3 {
+    font-size: clamp(1rem, 1vw, 5rem);
+    width: 90%;
+    margin-top: 15%;
+  }
 
-#section12-table td:last-child {
-  margin-top: 2rem;
-}
+  #section15 h2 {
+    font-size: clamp(1.7rem, 1vw, 5rem);
+    margin-top: 15%;
+  }
 
-#section12-table td {
-  border-bottom: none;
-  height: fit-content;
-}
+  #right-column li h4 {
+    font-size: clamp(1.1rem, 12px, 4rem);
+  }
 
-#section12 h5 {
-  display: flex;
-  font-size: clamp(1.2rem, 1vw, 4rem);
-  font-weight: 400;
-}
-
-#Logo-sequence {
-  transform: translate(0, 0);
-  width: 100vw;
-  z-index: 62;
-  opacity: 0.8;
-  z-index: 58;
-}
-
-#section13 {
-  padding: 0 4rem 4rem 4rem;
-}
-
-#section13 .title h2 {
-  font-size: clamp(2.1rem, 3.2vw, 4rem);
-}
-
-.card2 {
-  width: 90vw;
-  height: 45vh;
-}
-
-#section14 .title h2 {
-  font-size: clamp(2rem, 3.2vw, 4rem);
-  text-align: center;
-}
-
-#section14 {
-  padding: 4rem;
-  padding-top: 0;
-}
-
-.card3 {
-  width: 90vw;
-  height: 55vh;
-}
-
-.card2 h3 {
-  font-weight: 400;
-  font-size: clamp(1.3rem, 1vw, 5rem);
-  width: 100%;
-}
-
-.card2 p {
-  font-size: clamp(1rem, 12px, 4rem);
-  width: 100%;
-}
-
-#section15>h3 {
-  font-size: clamp(1.1rem, 1vw, 5rem);
-  font-weight: 200;
-  width: 85%;
-  top: 15vh;
-  left: 5vw;
-}
-
-#section15 h2 {
-  width: 50%;
-  margin-top: 15%;
-}
-
-#right-column p {
-  font-size: clamp(0.9rem, 12px, 4rem);
-  color: #FFFFFFB8;
-  margin-top: 1rem;
-}
-
-#right-column {
-  justify-content: space-between;
-  width: 90%;
-  bottom: 3%;
-  top: null;
-  left: 5%;
-}
-
-#right-column li {
-  padding: 2rem 0;
-}
-
-#right-column li h4 {
-  font-size: clamp(1.1rem, 12px, 4rem);
-}
+  #right-column p {
+    font-size: clamp(0.9rem, 12px, 4rem);
+  }
 
 }

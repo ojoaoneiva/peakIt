@@ -1,4 +1,4 @@
-// ===================== ELEMENTS =====================
+// ===================== ELEMENTS ==================================
 
 // DOM Elements
 const navbar = document.querySelector('nav');
@@ -37,7 +37,6 @@ async function preloadAdditionalImages(basePath, folderName, framestep, endFrame
 
     await new Promise((resolve) => {
       img.onload = () => {
-        console.log(`Imagem carregada: ${img.src}`);
         resolve();
       };
       img.onerror = resolve;
@@ -92,7 +91,6 @@ async function startRendering() {
   ];
 
   try {
-
     for (const sequence of sequences) {
       const { basePath, folder, framestep, endFrame } = sequence;
       await preloadAdditionalImages(basePath, folder, framestep, endFrame);
@@ -128,8 +126,7 @@ async function startRendering() {
 
 startRendering();
 
-
-// SECTION 1 -------------------------------------------------:
+// ===================== FIRST ANIMATION SEQUENCE =====================
 
 const accelerateEffect = (t, duration) => duration * (1 - Math.pow(1 - t, 3));
 const decelerateEffect = (t, duration) => duration * Math.pow(t, 3);
@@ -152,7 +149,10 @@ function handleImageSequenceEffectsByFrame(currentFrame) {
   if (currentFrame >= 85 && !location1.classList.contains('visible')) {
     container1.classList.add('visible');
     location1.classList.add('visible');
-    animateLetters();
+    if (!hasAnimated) {
+      animateLines('.line');
+      hasAnimated = true;
+    }
   }
   if (currentFrame >= 94 && !navbar.classList.contains('visible')) {
     navbar.classList.add('visible');
@@ -163,120 +163,63 @@ function handleImageSequenceEffectsByFrame(currentFrame) {
     gsap.fromTo(container2, { y: "100%", opacity: 0 }, { y: "0%", opacity: 1, duration: 2, ease: "power3.out" });
   }
   if (currentFrame >= 138) {
-    phase = 1
+    phase = 1;
+    hasAnimated = false;
   }
 }
 
-// ===================== SECTION 1 ANIMATIONS =====================
+// ===================== LETTERS ANIMATIONS =====================
 
-// Wrap each letter in a span for animation
-function wrapLettersInSpan() {
-  const lines = document.querySelectorAll('.line');
+function animateLines(id) {
+
+  const lines = document.querySelectorAll(id);
+
   lines.forEach(line => {
-    const text = line.textContent;
-    line.innerHTML = '';
-    [...text].forEach(char => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      line.appendChild(span);
-    });
+    const chars = line.textContent.split('');
+    line.innerHTML = chars.map(char => {
+      return char === ' ' ? `<span>&nbsp;</span>` : `<span>${char}</span>`;
+    }).join('');
   });
-}
-function resetLetters() {
-  gsap.set(".line span", { y: "100%", opacity: 0 });
-}
-// Animate the letters with GSAP
-function animateLetters() {
-  resetLetters();
-  gsap.timeline()
-    .to(".line:nth-child(1) span", { duration: 0.6, y: "0%", opacity: 1, stagger: { amount: 2, from: "start", ease: "power3.out" } }, 0)
-    .to(".line:nth-child(2) span", { duration: 0.6, y: "0%", opacity: 1, stagger: { amount: 2, from: "start", ease: "power3.out" } }, 0.5)
-    .to(".line:nth-child(3) span", { duration: 0.6, y: "0%", opacity: 1, stagger: { amount: 2, from: "start", ease: "power3.out" } }, 1);
-}
 
-function wrapLettersInSpan2() {
-  const lines = document.querySelectorAll('.line2');
-  lines.forEach(line => {
-    const text = line.textContent;
-    line.innerHTML = '';
-    [...text].forEach(char => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      line.appendChild(span);
-    });
+  lines.forEach((line, index) => {
+    const chars = line.querySelectorAll('span');
+    gsap.fromTo(
+      chars,
+      { y: '100%', opacity: 0 },
+      {
+        y: '0%',
+        opacity: 1,
+        delay: index * 0.5,
+        stagger: 0.05,
+        duration: 0.8,
+        ease: 'power2.out',
+      }
+    );
   });
 }
 
-// Animate the letters with GSAP
-function animateLetters2() {
-  gsap.timeline()
-    .to(".line2:nth-child(1) span", { duration: 0.3, y: "0%", opacity: 1, stagger: { amount: 1, from: "start", ease: "power3.out" } }, 0)
-    .to(".line2:nth-child(2) span", { duration: 0.3, y: "0%", opacity: 1, stagger: { amount: 1, from: "start", ease: "power3.out" } }, 0.3)
+// ===================== UPDATE NAVBAR STYLE =====================
+
+async function updateStylesForPhase(phase, buttons) {
+  if (buttons) {
+    if (phase === 4) {
+      button.style.backgroundColor = '#ffffff';
+      button.style.color = 'var(--color-1)';
+    } else {
+      button.style.backgroundColor = 'var(--color-1)';
+      button.style.color = '#ffffff';
+    }
+  }
+  if (phase === 4) {
+    logo.src = '/assets/logo/PeakIT-Logomark-White-Dark Background.svg';
+    navbar.style.backgroundColor = '#FFFFFF29';
+  } else {
+    logo.src = '/assets/logo/PeakIT-Logomark-Dark-Blue Background.svg';
+    navbar.style.backgroundColor = '#4a4a4a29';
+  }
 }
 
-function animateLettersSection10() {
-  resetLetters();
-  gsap.timeline()
-    .to(".line:nth-child(1) span", { duration: 0.6, y: "0%", opacity: 1, stagger: { amount: 2, from: "start", ease: "power3.out" } }, 0)
-    .to(".line:nth-child(2) span", { duration: 0.6, y: "0%", opacity: 1, stagger: { amount: 2, from: "start", ease: "power3.out" } }, 0.5)
-    .to(".line:nth-child(3) span", { duration: 0.6, y: "0%", opacity: 1, stagger: { amount: 2, from: "start", ease: "power3.out" } }, 1);
-}
-
-function wrapLettersInSpan3() {
-  const lines = document.querySelectorAll('.line3');
-  lines.forEach(line => {
-    const text = line.textContent;
-    line.innerHTML = '';
-    [...text].forEach(char => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      line.appendChild(span);
-    });
-  });
-}
-
-// Animate the letters with GSAP
-function resetLetters3() {
-  gsap.set(".line3 span", { y: "100%", opacity: 0 });
-}
-
-async function animateLetters3() {
-  return new Promise((resolve) => {
-    resetLetters3();
-    gsap.timeline()
-      .to(".line3:nth-child(1) span", { duration: 0.4, y: "0%", opacity: 1, stagger: { amount: 1, from: "start", ease: "power3.out" } }, 0)
-      .to(".line3:nth-child(2) span", { duration: 0.4, y: "0%", opacity: 1, stagger: { amount: 1, from: "start", ease: "power3.out" } }, 0.4)
-      .eventCallback("onComplete", resolve);
-  });
-}
-
-function wrapLettersInSpan4() {
-  const lines = document.querySelectorAll('.s7-title span');
-  lines.forEach(line => {
-    const text = line.textContent;
-    line.innerHTML = '';
-    [...text].forEach(char => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      line.appendChild(span);
-    });
-  });
-}
-
-// Wrap letters in span on page load
-wrapLettersInSpan();
-wrapLettersInSpan2();
-wrapLettersInSpan3();
-wrapLettersInSpan4();
-// ===================== SECTION 2, 3 AND 4 ===================
-
-// ===================== SCROLL ANIMATION =====================
-
-let scrollTriggered = false;
-let sectionPosition = 100;
-let phase = 0;
-let scrollDirection = 0;
-let isAnimating = false;
+// ===================== AUXILIAR FUNCTIONS =====================
 
 function element(id) {
   return document.getElementById(id);
@@ -288,6 +231,20 @@ function triggerGSAPAnimation(target, y = "0%", duration = 1, animationProps, ea
 function triggerGSAPAnimation2(target, animationProps, duration = 1, ease = "power2.out") {
   gsap.to(target, { duration, ...animationProps, ease });
 }
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// ===================== SCROLL ANIMATION =====================
+
+let scrollTriggered = false;
+let sectionPosition = 100;
+let phase = 0;
+let scrollDirection = 0;
+let isAnimating = false;
+let hasAnimated = false;
+let isAnimatingPhase = false;
 
 async function scrollAnimate(delta) {
   if (isAnimating) return;
@@ -310,6 +267,8 @@ async function scrollAnimate(delta) {
     6.2: handlePhase6_part2,
     6.3: handlePhase6_part3,
     7: handlePhase7,
+    7.2: handlePhase7_part2,
+    7.3: handlePhase7_part3,
     8: handlePhase8,
     10: handlePhase10,
     11: handlePhase11,
@@ -324,16 +283,12 @@ async function scrollAnimate(delta) {
   await phases[phase](delta);
   sectionPosition = 100;
 
-  if (phase < 6 && phase != 3) {
-    gsap.delayedCall(1, () => { isAnimating = false; });;
-  }
-  else if (phase === 3) {
-    gsap.delayedCall(3, () => { isAnimating = false; });;
-  } else if (phase >= 6) {
-    gsap.delayedCall(0, () => { isAnimating = false; });;
-  }
-  gsap.delayedCall(1, () => { isAnimating = false; });
+  isAnimating = false;
 }
+
+// ===================== SECTION 1 =====================
+
+const isMobileGlobal = window.matchMedia("(max-width: 768px)").matches;
 
 async function handlePhase1(delta) {
   sectionPosition -= delta;
@@ -342,6 +297,7 @@ async function handlePhase1(delta) {
   const isMobileOrTablet = window.matchMedia("(max-width: 768px)").matches;
   const scrollIndicator = document.getElementById("scroll-indicator");
 
+  // scroll down:
   if (scrollDirection === 1) {
     triggerGSAPAnimation2(imgElement, { scale: 1.2, filter: "blur(10px)" });
     triggerGSAPAnimation2(location1, { y: "-500%", opacity: 0, display: "none" });
@@ -351,7 +307,10 @@ async function handlePhase1(delta) {
     if (isMobileOrTablet) {
       triggerGSAPAnimation2(scrollIndicator, { bottom: null, top: "5vh", duration: 1 });
     }
+    await delay(1000);
     phase = 2;
+
+    // scroll up:
   } else {
     triggerGSAPAnimation2(imgElement, { scale: 1, filter: "blur(0px)" });
     triggerGSAPAnimation2(location1, { y: "0", opacity: 1, display: "block" });
@@ -364,38 +323,49 @@ async function handlePhase1(delta) {
   }
 }
 
+// ===================== SECTION 2 =====================
+
 async function handlePhase2(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 100 || isMobileGlobal) && scrollDirection === 1) {
     isAnimatingPhase = true;
+    if (!hasAnimated) {
+      animateLines('.line2');
+      hasAnimated = true;
+    }
     await Promise.all([
-      animateLetters2(),
       triggerGSAPAnimation('section2', "0%", 2),
       triggerGSAPAnimation('section1', "-120%", 2),
       updateStylesForPhase(2),
       await delay(500),
       renderKeycapImagesFrom180To360(500),
     ])
+    console.log("aa")
     phase = 3;
+    hasAnimated = false;
     isAnimatingPhase = false;
+
+    // scroll up:
   } else {
     renderKeycapImagesFrom1To180();
     triggerGSAPAnimation('section2', "120%", 1);
     triggerGSAPAnimation('section1', "0", 1);
-    // triggerGSAPAnimation('keyboard-sequence', "0%", 1);
-    // triggerGSAPAnimation('PC-sequence', "-150%", 1);
     updateStylesForPhase(4);
     phase = 1;
   }
 }
 
+// ===================== SECTION 3 =====================
+
 async function handlePhase3(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     isAnimatingPhase = true;
     await Promise.all([
       renderKeycapImagesFrom1To180(),
@@ -411,6 +381,8 @@ async function handlePhase3(delta) {
     ])
     phase = 4;
     isAnimatingPhase = false;
+
+    // scroll up:
   } else {
     renderKeycapImagesFrom180To360(500);
     triggerGSAPAnimation('section3', "100%", 1);
@@ -423,30 +395,14 @@ async function handlePhase3(delta) {
   }
 }
 
-async function updateStylesForPhase(phase, buttons) {
-  if (buttons) {
-    if (phase === 4) {
-      button.style.backgroundColor = '#ffffff';
-      button.style.color = 'var(--color-1)';
-    } else {
-      button.style.backgroundColor = 'var(--color-1)';
-      button.style.color = '#ffffff';
-    }
-  }
-  if (phase === 4) {
-    logo.src = '/assets/logo/PeakIT-Logomark-White-Dark Background.svg';
-    navbar.style.backgroundColor = '#FFFFFF29';
-  } else {
-    logo.src = '/assets/logo/PeakIT-Logomark-Dark-Blue Background.svg';
-    navbar.style.backgroundColor = '#4a4a4a29';
-  }
-}
+// ===================== SECTION 4 =====================
 
 async function handlePhase4(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     isAnimatingPhase = true;
     await Promise.all([
       triggerGSAPAnimation('section4', "0%", 1),
@@ -459,6 +415,8 @@ async function handlePhase4(delta) {
     ]);
     phase = 5;
     isAnimatingPhase = false;
+
+    // scroll up:
   } else if (scrollDirection === -1) {
     triggerGSAPAnimation('section4', "100%", 1);
     triggerGSAPAnimation('section3', `0`, 1);
@@ -471,36 +429,49 @@ async function handlePhase4(delta) {
   }
 }
 
+// ===================== SECTION 5 =====================
+
 async function handlePhase5(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     isAnimatingPhase = true;
+    if (!hasAnimated) {
+      animateLines('.line3');
+      hasAnimated = true;
+    }
     await Promise.all([
       triggerGSAPAnimation2(element('section4'), { scale: 0.8, }, 2),
       triggerGSAPAnimation2(element('section5'), { opacity: 1 }, 0.2),
-      await animateLetters3()
     ]);
+    await delay(2000);
     phase = 6;
+    hasAnimated = false;
     isAnimatingPhase = false;
+
+    // scroll up:
   } else if (scrollDirection === -1) {
     isAnimatingPhase = true;
     await Promise.all([
       triggerGSAPAnimation2(element('section4'), { scale: 1, }, 2),
       triggerGSAPAnimation2(element('section5'), { opacity: 0 }, 0.2)
-  ]);
+    ]);
     phase = 4; isAnimatingPhase = false;
   }
 }
 
 let isRendering = false;
 
+// ===================== SECTION 6 =====================
+
 async function handlePhase6(delta) {
   if (isAnimatingPhase) return;
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     isAnimatingPhase = true;
     await Promise.all([
       triggerGSAPAnimation('section6', "0%", 1),
@@ -510,11 +481,12 @@ async function handlePhase6(delta) {
     ])
     phase = 6.2;
     isAnimatingPhase = false;
+    // scroll up:
   } else if (scrollDirection === -1) {
     triggerGSAPAnimation('section6', "100%", 1);
     triggerGSAPAnimation('section5', `0`, 1);
     renderSc4ImagesReversedPart1()
-    updateStylesForPhase(2);
+    updateStylesForPhase(2, true);
     phase = 5;
   }
 }
@@ -525,7 +497,8 @@ async function handlePhase6_part2(delta) {
   const section6 = element('fade-in-out');
 
   if (section6) {
-    if (sectionPosition <= 0 && scrollDirection === 1) {
+    // scroll down:
+    if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
       isAnimatingPhase = true;
 
       await Promise.all([
@@ -549,6 +522,8 @@ async function handlePhase6_part2(delta) {
       ])
       phase = 6.3;
       isAnimatingPhase = false;
+
+      // scroll up:
     } else if (scrollDirection === -1) {
       phase = 6;
       section6.innerHTML = generateSectionContent(
@@ -573,7 +548,8 @@ async function handlePhase6_part3(delta) {
   const section6 = element('fade-in-out');
 
   if (section6) {
-    if (sectionPosition <= -100 && scrollDirection === 1) {
+    // scroll down:
+    if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
       isAnimatingPhase = true;
 
       await Promise.all([
@@ -595,8 +571,10 @@ async function handlePhase6_part3(delta) {
         }),
         fadeIn(section6)
       ])
-      phase = 7;
       isAnimatingPhase = false;
+      phase = 7;
+
+      // scroll up:
     } else if (scrollDirection === -1) {
       phase = 6.2;
 
@@ -614,10 +592,6 @@ async function handlePhase6_part3(delta) {
     }
   }
   await new Promise((resolve) => setTimeout(resolve, 1500));
-}
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function fadeOut(element) {
@@ -647,15 +621,19 @@ function generateSectionContent(title, description, listItems) {
   `;
 }
 
+// ===================== SECTION 7 =====================
 
+let isAnimatingPhase7 = false;
 
 async function handlePhase7(delta) {
   if (isAnimatingPhase) return;
+  sectionPosition = 100;
   sectionPosition -= delta;
   const section6 = element('fade-in-out');
-  const isMobileOrTablet = window.matchMedia('(max-width: 768px)').matches;
+  const isMobileOrTablet = window.matchMedia('(max-width: 1024px)').matches;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     isAnimatingPhase = true;
 
     fadeOut(section6);
@@ -664,39 +642,56 @@ async function handlePhase7(delta) {
     triggerGSAPAnimation('section7', "0%", 1);
     triggerGSAPAnimation('section6', `-100%`, 1);
     if (isMobileOrTablet) {
-      animateLettersAndCardsMobile();
+      await animateLettersAndCardsMobile();
     } else {
       animateLettersAndCardsDesketop();
     }
-  } else if (sectionPosition <= 0 && scrollDirection === 1) {
-    triggerGSAPAnimation('section7', "0%", 1);
-    triggerGSAPAnimation('section6', `-100%`, 1);
-    phase = 8;
-  } else {
-    // Reverter para o estado inicial
+
+    // scroll up:
+  } else if (scrollDirection === -1) {
     phase = 6.3;
     triggerGSAPAnimation('section7', "100%", 1);
     triggerGSAPAnimation('section6', `0`, 1);
+    activeIndexPhase7 = 0;
+    isAnimatingPhase = false;
 
-    // Reverter animações e posições
     const cards = document.querySelectorAll('.card');
-    cards.forEach(card => gsap.killTweensOf(card));
-    gsap.set('.s7-title span span', { opacity: 0 });
-    gsap.set('.s7-title:nth-child(1)', { left: 0, opacity: 1 });
-    gsap.set('.s7-title:nth-child(2)', { left: null, right: 0, opacity: 1 });
+    if (isMobileOrTablet) {
 
-    gsap.set('#linetop', { left: "0%" });
-    gsap.set('#linebottom', { left: "36%" });
+      gsap.set('.s7-title span span', { opacity: 0 });
+      gsap.set('.s7-title:nth-child(1)', { left: null, right: null, opacity: 1 });
+      gsap.set('.s7-title:nth-child(2)', { left: null, right: 0, opacity: 1 });
 
-    cards.forEach(card => {
+      gsap.set('#linetop', { left: null });
+      gsap.set('#linebottom', { left: "35%" });
+
+      cards.forEach(card => {
         gsap.set(card, {
-            x: 0,
-            y: "180%",
-            rotation: 0,
-            rotationY: 0,
-            opacity: 0,
+          y: "100%",
+          opacity: 0,
+          scale: 1,
         });
-    });
+      });
+
+    } else {
+      cards.forEach(card => gsap.killTweensOf(card));
+      gsap.set('.s7-title span span', { opacity: 0 });
+      gsap.set('.s7-title:nth-child(1)', { left: 0, opacity: 1 });
+      gsap.set('.s7-title:nth-child(2)', { left: null, right: 0, opacity: 1 });
+
+      gsap.set('#linetop', { left: "0%" });
+      gsap.set('#linebottom', { left: "35%" });
+
+      cards.forEach(card => {
+        gsap.set(card, {
+          x: 0,
+          y: "180%",
+          rotation: 0,
+          rotationY: 0,
+          opacity: 0,
+        });
+      });
+    }
 
     section6.innerHTML = generateSectionContent(
       'Automation',
@@ -717,7 +712,6 @@ const cards = document.querySelectorAll(".card");
 
 function animateLettersAndCardsDesketop() {
   const allLetters = document.querySelectorAll('.s7-title span span');
-  const cards = document.querySelectorAll('.card');
   gsap.set(cards, {
     x: 0,
     y: "180%",
@@ -736,7 +730,7 @@ function animateLettersAndCardsDesketop() {
     .to(cards, {
       rotation: (index) => 5 + index * 8, stagger: 0.1, duration: 1, ease: "power3.inOut"
     }, "-=1.3")
-    .to(cards, { rotationY: "+=720", x: (index) => (index - 1) * 300, rotation: 0, duration: 0.9, ease: "power2.inOut" })
+    .to(cards, { rotationY: "+=720", x: (index) => (index - 1) * 350, rotation: 0, duration: 0.9, ease: "power2.inOut" })
     .add(() => {
       cards.forEach((card, index) => {
         const delay = index === 1 ? 0.7 : 0;
@@ -751,31 +745,31 @@ function animateLettersAndCardsDesketop() {
       }, 200);
     });
 }
+let currentCardIndex;
+let activeIndexPhase7 = 0;
 
-function animateLettersAndCardsMobile() {
+async function animateLettersAndCardsMobile() {
   const allLetters = document.querySelectorAll('.s7-title span span');
-  const cards = document.querySelectorAll('.card');
-
-  gsap.set(cards, {
-    x: 0,
-    y: "180%",
-    rotation: 0,
-    rotationY: 0,
-    opacity: 0,
+  cards.forEach(card => {
+    gsap.set(card, {
+      y: "100%",
+      opacity: 0,
+      scale: 1,
+    });
   });
 
   const timeline = gsap.timeline();
-
   timeline
     .to(allLetters, { opacity: 1, stagger: 0.05, duration: 0.5, ease: "power2.out" })
-    .to('.s7-title:nth-child(1)', { right: 0, opacity: 0.3, duration: 2, ease: "power2.inOut" })
-    .to('.s7-title:nth-child(2)', { right: null, left: 0, opacity: 0.3, duration: 2, ease: "power2.inOut" }, "<")
+    .to('.s7-title:nth-child(1)', { right: "0%", opacity: 0.3, duration: 2, ease: "power2.inOut" })
+    .to('.s7-title:nth-child(2)', { right: "0%", left: 0, opacity: 0.3, duration: 2, ease: "power2.inOut" }, "<")
     .to('#linetop', { left: '22%', duration: 2, ease: "power2.inOut" }, "<")
-    .to('#linebottom', { left: 0, duration: 2, ease: "power2.inOut" }, "<");
+    .to('#linebottom', { left: 0, duration: 2, ease: "power2.inOut" }, "<")
+  await delay(2500);
 
   cards.forEach((card, index) => {
     timeline.to(card, {
-      y: `${(130 * index)-10 }%`,
+      y: `${index * 115}%`,
       opacity: 1,
       duration: 1,
       delay: index * 0.1,
@@ -783,48 +777,86 @@ function animateLettersAndCardsMobile() {
     });
   });
 
-  let currentCardIndex = 0;
-  let isScrolling = false;
+  await delay(2000);
+  phase = 7.2;
+  isAnimatingPhase = false;
+}
 
-  cards.forEach((card) => {
-    card.addEventListener('wheel', (event) => {
-      if (isScrolling) return;
-      isScrolling = true;
-      const direction = event.deltaY > 0 ? 1 : -1;
+async function handlePhase7_part2(delta) {
+  if (isAnimatingPhase) return;
+  sectionPosition = 100;
+  sectionPosition -= delta;
+  const container = document.getElementById('container');
 
-      if (direction === 1 && currentCardIndex < cards.length - 1) {
-        gsap.to(cards[currentCardIndex + 1], {
-          y: `${(-20 * (currentCardIndex + 1)-10)}%`,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power2.out"
-        });
-        currentCardIndex++;
-      } else if (direction === -1 && currentCardIndex > 0) {
-        gsap.to(cards[currentCardIndex], {
-          y: `${100 * (currentCardIndex)}%`,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power2.out"
-        });
-        currentCardIndex--;
-      } else if (direction === 1 && currentCardIndex==cards.length-1) {
-        phase = 8;
-        isAnimatingPhase = false;
-      }
-      setTimeout(() => {
-        isScrolling = false;
-      }, 500);
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
+    isAnimatingPhase = true;
+    gsap.to(container, {
+      y: "-=50vh",
+      duration: 1.5,
+      ease: "power2.out",
     });
-  });
+    await delay(1500);
+    phase = 7.3;
+    isAnimatingPhase = false;
+
+    // scroll up:
+  } else if (scrollDirection === -1) {
+    isAnimatingPhase = true;
+    gsap.to(container, {
+      y: "+=50vh",
+      duration: 1.5,
+      ease: "power2.out",
+    });
+    await delay(1500);
+    phase = 7;
+    isAnimatingPhase = false;
+  }
+}
+
+async function handlePhase7_part3(delta) {
+  if (isAnimatingPhase) return;
+  sectionPosition = 100;
+  sectionPosition -= delta;
+  const container = document.getElementById('container');
+
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
+    isAnimatingPhase = true;
+    gsap.to(container, {
+      y: "-=50vh",
+      duration: 1.5,
+      ease: "power2.out",
+    });
+    await delay(1500);
+    phase = 8;
+    isAnimatingPhase = false;
+
+    // scroll up:
+  } else if (scrollDirection === -1) {
+    isAnimatingPhase = true;
+    gsap.to(container, {
+      y: "+=50vh",
+      duration: 1.5,
+      ease: "power2.out",
+    });
+    await delay(1500);
+    phase = 7.2;
+    isAnimatingPhase = false;
+  }
 }
 
 let handlePhase8Mounted = false;
 
+// ===================== SECTION 8 =====================
+
 async function handlePhase8(delta) {
   if (isAnimatingPhase) return;
-  const isMobile = window.innerWidth <= 768;
 
+  const isMobile = window.innerWidth <= 767;
+  const isTablet = window.innerWidth > 767 && window.innerWidth <= 1024;
+
+  // Variables for mobile, desktop and tablet:
   const shapeClipMobile = {
     x: '-3000%',
     y: '-200%',
@@ -835,65 +867,83 @@ async function handlePhase8(delta) {
   const sectionTitleMobile = {
     scale: 1.1,
     x: '0%',
+    opacity: 0,
     duration: 1.2,
+  };
+
+  const shapeClipTablet = {
+    x: '-1500%',
+    y: '-150%',
+    scale: 40,
+    duration: 0.01,
+  };
+
+  const sectionTitleTablet = {
+    scale: 1.15,
+    x: '0%',
+    duration: 1.4,
+    opacity: 0,
+  };
+
+  const shapeClipDesktop = {
+    x: '-700%',
+    y: '-300%',
+    scale: 30,
+    opacity: 1,
+    duration: 0.01,
+    ease: "power2.inOut",
+  };
+
+  const sectionTitleDesktop = {
+    scale: 1.2,
+    x: '0%',
+    opacity: 0,
+    duration: 1.5,
+    ease: "power2.inOut",
   };
 
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     if (!handlePhase8Mounted) {
       isAnimatingPhase = true;
 
       triggerGSAPAnimation('section8', "0%", 1);
       triggerGSAPAnimation('section7', `-100%`, 1);
       await delay(800);
-      
-      gsap.to("#shape-clip", isMobile ? shapeClipMobile : {
-        x: '-700%',
-        y: '-300%',
-        scale: 30,
-        opacity: 1,
-        duration: 0.01,
-        ease: "power2.inOut",
-      });
 
-      gsap.to("#section8-title", {
-        scale: 1.2,
-        x: '0%',
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.inOut",
-      });
-
-      gsap.to("#section8-title", {
-        filter: "blur(20px)",
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.inOut",
-      });
-
+      gsap.to("#shape-clip",
+        isMobile ? shapeClipMobile :
+          isTablet ? shapeClipTablet :
+            shapeClipDesktop
+      );
+      gsap.to("#section8-title",
+        isMobile ? sectionTitleMobile :
+          isTablet ? sectionTitleTablet :
+            sectionTitleDesktop
+      );
       gsap.to("#background-image", {
-        scale: 1.2,
+        scale: isMobile ? 1.3 : isTablet ? 1.3 : 1.2,
         opacity: 1,
         duration: 1.5,
         ease: "power2.inOut",
       });
-
       await delay(800);
 
       await new Promise(resolve => {
         gsap.to("#shape-clip", {
-          x: isMobile ? '-5%' : '50%',
-          y: isMobile ? '15%' : '20%',
-          scale: isMobile ? 0.7 : 0.8,
+          x: isMobile ? '5%' : isTablet ? '15%' : '50%',
+          y: isMobile ? '15%' : isTablet ? '15%' : '20%',
+          scale: isMobile ? 0.5 : isTablet ? 0.9 : 0.8,
           opacity: 1,
           duration: 2,
           ease: "power2.inOut",
           onComplete: resolve,
         });
         gsap.to("#background-image", {
-          scale: isMobile ? 1 : 0.8,
-          x: isMobile ? '0%' : '25%',
+          scale: isMobile ? 1.1 : isTablet ? 1.1 : 0.8,
+          x: isMobile ? '0%' : isTablet ? '0%' : '25%',
           duration: 1.8,
           delay: 0.8,
           ease: "power2.inOut",
@@ -909,31 +959,36 @@ async function handlePhase8(delta) {
       triggerGSAPAnimation('section7', `-100%`, 1);
       phase = 10;
     }
+    // scroll up:
   } else {
     triggerGSAPAnimation('section8', "100%", 1);
     triggerGSAPAnimation('section7', `0`, 1);
     await delay(1000);
-    phase = 7;
+    if (isMobile || isTablet) {
+      phase = 7.3;
+    } else {
+      phase = 7;
+    }
+
     handlePhase8Mounted = false;
 
-    gsap.to("#shape-clip", isMobile ? shapeClipMobile : {
-      x: '-700%',
-      y: '-300%',
-      scale: 30,
-      opacity: 1,
-      duration: 0.01,
-      ease: "power2.inOut",
-    });
-
-    gsap.to("#section8-title", isMobile ? sectionTitleMobile : {
-      scale: 1,
-      x: '0%',
-      opacity: 1,
-      duration: 0.01,
-      filter: "blur(0px)",
-      ease: "power2.inOut",
-    });
-
+    gsap.to("#shape-clip",
+      isMobile ? shapeClipMobile :
+        isTablet ? shapeClipTablet :
+          shapeClipDesktop
+    );
+    gsap.to("#section8-title",
+      isMobile ? sectionTitleMobile :
+        isTablet ? sectionTitleTablet :
+          {
+            scale: 1,
+            x: '0%',
+            opacity: 1,
+            duration: 0.01,
+            filter: "blur(0px)",
+            ease: "power2.inOut",
+          }
+    );
     gsap.to("#background-image", {
       scale: 1,
       opacity: 1,
@@ -944,22 +999,26 @@ async function handlePhase8(delta) {
   }
 }
 
+// ===================== SECTION 10 =====================
 
-let isAnimatingPhase = false;
 let phaseStep = 0;
 
 async function handlePhase10(delta) {
   if (isAnimatingPhase) return;
   const isMobile = window.innerWidth <= 768;
-
   sectionPosition -= delta;
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     if (phaseStep === 0) {
       isAnimatingPhase = true;
+      if (!hasAnimated) {
+        animateLines('.lineSection10');
+        hasAnimated = true;
+      }
       triggerGSAPAnimation('dancers', "-10%", 1.5);
       triggerGSAPAnimation('section10', "0%", 1.5);
       triggerGSAPAnimation('section8', `-100%`, 1.5);
-      animateLetters();
       await delay(1500);
       phaseStep = 1; isAnimatingPhase = false;
       return;
@@ -967,113 +1026,140 @@ async function handlePhase10(delta) {
     if (phaseStep === 1) {
       isAnimatingPhase = true;
       triggerGSAPAnimation('dancers', "0%", 2);
-      triggerGSAPAnimation('column-section10', isMobile? "-80%" : "-20%", 2);
-      triggerGSAPAnimation('section10Title', isMobile? "-80vh" : "0%", 2);
+      triggerGSAPAnimation('column-section10', isMobile ? "-80%" : "-20%", 2);
+      triggerGSAPAnimation('section10Title', isMobile ? "-80vh" : "0%", 2);
       await delay(2000);
-      phase = 11; phaseStep = 0;
-      isAnimatingPhase = false;
+      phaseStep = 0;
+      isAnimatingPhase = false; hasAnimated = false; phase = 11;
     }
+    // scroll up:
   } else {
+    isAnimatingPhase = true;
     triggerGSAPAnimation('section10', "100%", 1);
     triggerGSAPAnimation('section8', "0%", 1);
     triggerGSAPAnimation('dancers', "-20%", 2);
     triggerGSAPAnimation('column-section10', `0%`, 2);
-    triggerGSAPAnimation('section10Title', isMobile? "0%" : "-80vh", 2);
+    triggerGSAPAnimation('section10Title', isMobile ? "0%" : "-80vh", 2);
+    await delay(2000);
     phase = 8; phaseStep = 0;
+    isAnimatingPhase = false;
   }
 }
+
+// ===================== SECTION 11 =====================
 
 async function handlePhase11(delta) {
   if (isAnimatingPhase) return;
   const isMobile = window.innerWidth <= 768;
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     if (phaseStep === 0) {
-      isAnimatingPhase = true;
-      animateLetters();
-      triggerGSAPAnimation('notebook', "-10%", 1.5);
       triggerGSAPAnimation('section11', "0%", 1.5);
       triggerGSAPAnimation('section10', `-100%`, 1.5);
-      await delay(1000);
+      isAnimatingPhase = true;
+      if (!hasAnimated) {
+        animateLines('.lineSection11');
+        hasAnimated = true;
+      }
+      triggerGSAPAnimation('notebook', "-10%", 1.5);
+      await delay(2000);
       phaseStep = 1; isAnimatingPhase = false;
       return;
     }
     if (phaseStep === 1) {
       isAnimatingPhase = true;
       triggerGSAPAnimation('notebook', "0%", 2);
-      triggerGSAPAnimation('column-section11', isMobile? "-80%" : `-20%`, 2);
-      triggerGSAPAnimation('section11Title', isMobile? "-80vh" : "0%", 2);
+      triggerGSAPAnimation('column-section11', isMobile ? "-80%" : `-20%`, 2);
+      triggerGSAPAnimation('section11Title', isMobile ? "-80vh" : "0%", 2);
       await delay(2000);
-      phase = 12; phaseStep = 0; isAnimatingPhase = false;
+      phaseStep = 0; isAnimatingPhase = false; phase = 12; hasAnimated = false;
     }
+    // scroll up:
   } else {
-    phase = 10; phaseStep = 0;
     triggerGSAPAnimation('section11', "100%", 1);
     triggerGSAPAnimation('section10', `0`, 1);
     triggerGSAPAnimation('notebook', "-20%", 2);
     triggerGSAPAnimation('column-section11', `0%`, 2);
-    triggerGSAPAnimation('section11Title', isMobile? "0%" : "-80vh", 2);
+    triggerGSAPAnimation('section11Title', isMobile ? "0%" : "-80vh", 2);
+    phase = 10; phaseStep = 0;
   }
 }
 
-async function handlePhase12(delta) {
-  sectionPosition -= delta;
-  const isMobile = window.innerWidth <= 768;
+// ===================== SECTION 12 =====================
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+async function handlePhase12(delta) {
+  if (isAnimatingPhase) return;
+  sectionPosition -= delta;
+
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
+    isAnimatingPhase = true;
+    triggerGSAPAnimation('section12', "0vh", 1.5),
+      triggerGSAPAnimation('section11', `-100%`, 1.5)
     updateStylesForPhase(2)
-    animateLetters()
-    triggerGSAPAnimation('section12', "0vh", 1.5);
-    triggerGSAPAnimation('section11', `-100%`, 1.5);
+    if (!hasAnimated) {
+      animateLines('.lineSection12');
+      hasAnimated = true;
+    }
     if (!isRendering) {
       renderLogoImages();
     }
-    phase = 12.2; 
-  } else {
+    await delay(2000);
+    phase = 12.2; isAnimatingPhase = false; hasAnimated = false;
+    // scroll up:
+  } else if (sectionPosition > 0 && scrollDirection === -1) {
+    triggerGSAPAnimation('section11', "0%", 0.5),
+      triggerGSAPAnimation('section12', "100%", 1.5);
     phase = 11;
-    triggerGSAPAnimation('section12', "100%", 1.5);
-    triggerGSAPAnimation('section11', `0`, 1.5);
+    updateStylesForPhase(4);
   }
-  await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 
 async function handlePhase12_part2(delta) {
   sectionPosition -= delta;
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 1024;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
-    triggerGSAPAnimation('section12', isMobile? "-80vh" : "-50vh", 1.5);
-    triggerGSAPAnimation('Logo-sequence', isMobile? "80vh" : "50vh", 1.5);
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
+    triggerGSAPAnimation('section12', isMobile ? "-80vh" : "-50vh", 1.5);
+    triggerGSAPAnimation('Logo-sequence', isMobile ? "80vh" : "50vh", 1.5);
+    await delay(1000);
     phase = 12.3;
+    // scroll up:
   } else {
     triggerGSAPAnimation('section12', "0vh", 1);
     triggerGSAPAnimation('Logo-sequence', "0vh", 1);
     phase = 12;
   }
-  await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 
 async function handlePhase12_part3(delta) {
   sectionPosition -= delta;
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 1024;
 
+  // scroll down:
   if (scrollDirection === 1) {
     if (isMobile) {
       if (phaseStep === 0) {
         triggerGSAPAnimation('section12', "-160vh", 1.5);
         triggerGSAPAnimation('Logo-sequence', "160vh", 1.5);
+        await delay(1000);
         phaseStep = 1;
       } else if (phaseStep === 1) {
         triggerGSAPAnimation('section12', "-280vh", 1.5);
         triggerGSAPAnimation('Logo-sequence', "280vh", 1.5);
+        await delay(1000);
         phase = 13;
       }
     } else {
       triggerGSAPAnimation('section12', "-100vh", 1.5);
       triggerGSAPAnimation('Logo-sequence', "100vh", 1.5);
+      await delay(1000);
       phase = 13;
     }
+    // scroll up:
   } else {
     if (isMobile) {
       if (phaseStep == 1) {
@@ -1091,41 +1177,43 @@ async function handlePhase12_part3(delta) {
       phase = 12.2;
     }
   }
-
-  await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 
+// ===================== SECTION 13 =====================
 
 async function handlePhase13(delta) {
   sectionPosition -= delta;
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 767;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     stopRendering = false; infiniteLoopCanvas = null;
     updateStylesForPhase(4)
     triggerGSAPAnimation('section13', "0%", 1.5);
     triggerGSAPAnimation('section12', `-100%`, 1.5);
+    if (!hasAnimated) {
+      animateLines('.lineSection13');
+      hasAnimated = true;
+    }
 
     if (activeIndex < cards2.length) {
       activateNextCard();
     } else {
+      hasAnimated = false;
       phase = 14;
     }
 
+    // scroll up:
   } else if (sectionPosition > 0 && scrollDirection === -1) {
     if (activeIndex > 0) {
       activatePreviousCard();
     }
     if (activeIndex === 0) {
       renderLogoImages();
-      triggerGSAPAnimation('section13', "100%", 1);
-      if (isMobile) {
-          triggerGSAPAnimation('section12', "-280vh", 1.5);
-          phase = 12.3;
-      } else {
-        triggerGSAPAnimation('section12', "-50vh", 1.5);
-        phase = 12.3;
-      }
+      triggerGSAPAnimation('section12', "0%", 1),
+        triggerGSAPAnimation('section13', "100%", 1);
+      phase = 12;
+      updateStylesForPhase(2)
     }
   }
 }
@@ -1134,7 +1222,7 @@ const cards2 = document.querySelectorAll('.card2');
 let activeIndex = 0;
 
 function activateNextCard() {
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 1024;
 
   if (activeIndex < cards2.length) {
     gsap.to(cards2[activeIndex], {
@@ -1181,16 +1269,23 @@ function activatePreviousCard() {
   }
 }
 
+// ===================== SECTION 14 =====================
+
 let cardAnimation = null;
 let cardsCreated = null;
 
 async function handlePhase14(delta) {
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     updateStylesForPhase(4, true)
     triggerGSAPAnimation('section14', "0%", 1);
     triggerGSAPAnimation('section13', `-100%`, 1);
+    if (!hasAnimated) {
+      animateLines('.lineSection14');
+      hasAnimated = true;
+    }
     let totalCards;
     if (!cardsCreated) {
       const cardContainer = document.querySelector(".card-container3");
@@ -1215,23 +1310,30 @@ async function handlePhase14(delta) {
     }
     await delay(700)
     phase = 15; cardAnimation = null;
+
+    // scroll up:
   } else if (sectionPosition > 0 && scrollDirection === -1) {
+    updateStylesForPhase(2, true)
     triggerGSAPAnimation('section14', "100%", 1);
     triggerGSAPAnimation('section13', `0`, 1);
     phase = 13; cardAnimation = null;
   }
 }
 
+// ===================== SECTION 15 =====================
+
 async function handlePhase15(delta) {
   sectionPosition -= delta;
 
-  if (sectionPosition <= 0 && scrollDirection === 1) {
+  // scroll down:
+  if ((sectionPosition <= 0 || isMobileGlobal) && scrollDirection === 1) {
     if (!isRendering) {
       renderSequence_cam_03Images();
     }
     triggerGSAPAnimation('section15', "0%", 1);
     triggerGSAPAnimation('section14', `-100%`, 1);
 
+    // scroll up:
   } else if (sectionPosition > 0 && scrollDirection === -1) {
     triggerGSAPAnimation('section15', "100%", 1);
     triggerGSAPAnimation('section14', `0`, 1);
@@ -1240,32 +1342,53 @@ async function handlePhase15(delta) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
-// Event listener for mouse wheel scroll
-let lastScrollTime = 0;
+// ===================== SCROLL EVENT LISTNER =====================
 
-window.addEventListener('wheel', (event) => {
+let lastScrollTime = 0;
+let lastTouchY = 0;
+
+function onScroll(event) {
   const now = performance.now();
   if (now - lastScrollTime < 100) return;
   lastScrollTime = now;
 
-  const delta = event.deltaY;
+  const delta = event.deltaY || event.detail || -event.wheelDelta || 0;
   scrollAnimate(delta);
+}
+
+function onTouchMove(event) {
+  const touchY = event.touches[0].clientY;
+  const delta = lastTouchY ? lastTouchY - touchY : 0;
+  lastTouchY = touchY;
+
+  if (Math.abs(delta) > 10) {
+    scrollAnimate(delta);
+  }
+}
+
+window.addEventListener('wheel', onScroll, { passive: false });
+
+window.addEventListener('touchmove', onTouchMove, { passive: false });
+
+window.addEventListener('touchend', () => {
+  lastTouchY = 0;
 });
 
-// ===================== RENDER SECTION IMAGE'S SEQUENCES FOR SECTIONS 2, 3, 4 AND 6  ===================
+
+// ===================== FUNCTION TO RENDER IMAGE'S SEQUENCES FOR SECTIONS 2, 3, 4, 6 AND 15 ===================
 
 let stopRendering = false;
 let infiniteLoopCanvas = null;
 
-async function renderImagesWithCanvas({ canvasId, assetCache = imagesCache, folderName, startFrame = 0, endFrame, duration, reverse = false }) {
+async function renderImagesWithCanvas({ canvasId, folderName, startFrame = 0, endFrame, duration, reverse = false }) {
   const canvas = element(canvasId);
   const context = canvas.getContext('2d');
 
   if (endFrame === undefined) {
-    endFrame = assetCache[folderName].length - 1;
+    endFrame = imagesCache[folderName].length - 1;
   }
 
-  let images = assetCache[folderName].slice(startFrame, endFrame + 1);
+  let images = imagesCache[folderName].slice(startFrame, endFrame + 1);
   if (reverse) {
     images = images.reverse();
   }
@@ -1306,10 +1429,13 @@ async function renderImagesWithCanvas({ canvasId, assetCache = imagesCache, fold
   });
 }
 
+// Each animation's function:
+
+// Section 2:
+
 function renderKeycapImagesFrom180To360(time) {
   renderImagesWithCanvas({
     canvasId: 'keyboard-sequence',
-    assetPath: '/assets/PC_anim/Keycap/Keycap',
     folderName: 'keycap',
     startFrame: 30,
     endFrame: 60,
@@ -1320,26 +1446,27 @@ function renderKeycapImagesFrom180To360(time) {
 function renderKeycapImagesFrom1To180() {
   renderImagesWithCanvas({
     canvasId: 'keyboard-sequence',
-    assetPath: '/assets/PC_anim/Keycap/Keycap',
     folderName: 'keycap',
     endFrame: 30,
     duration: 500,
   });
 }
 
+// Section 3:
+
 function renderheadphonesImages() {
   renderImagesWithCanvas({
     canvasId: 'headphones-sequence',
-    assetPath: '/assets/PC_anim/Headphones/Headphones',
     folderName: 'headphones',
     duration: 800,
   });
 }
 
+// Section 4:
+
 function renderPCImages() {
   return renderImagesWithCanvas({
     canvasId: 'PC-sequence',
-    assetPath: '/assets/PC_anim/PC/PC',
     folderName: 'PC',
     duration: 800,
   });
@@ -1348,17 +1475,16 @@ function renderPCImages() {
 function renderPCImages2() {
   renderImagesWithCanvas({
     canvasId: 'PC-sequence',
-    assetPath: '/assets/PC_anim/PC_2/PC_anim',
     folderName: 'PC_2',
     duration: 2000,
   });
 }
 
+// Section 6:
 
 async function renderSc4ImagesPart1() {
   await renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 1,
     endFrame: 38,
@@ -1369,7 +1495,6 @@ async function renderSc4ImagesPart1() {
 async function renderSc4ImagesPart2() {
   await renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 38,
     endFrame: 76,
@@ -1380,7 +1505,6 @@ async function renderSc4ImagesPart2() {
 async function renderSc4ImagesPart3() {
   await renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 76,
     endFrame: 108,
@@ -1391,7 +1515,6 @@ async function renderSc4ImagesPart3() {
 async function renderSc4ImagesPart4() {
   await renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 108,
     endFrame: 149,
@@ -1399,10 +1522,11 @@ async function renderSc4ImagesPart4() {
   });
 }
 
+// Section 6 Reversed:
+
 function renderSc4ImagesReversedPart1() {
   renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 1,
     endFrame: 38,
@@ -1414,7 +1538,6 @@ function renderSc4ImagesReversedPart1() {
 function renderSc4ImagesReversedPart2() {
   renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 38,
     endFrame: 76,
@@ -1426,8 +1549,6 @@ function renderSc4ImagesReversedPart2() {
 function renderSc4ImagesReversedPart3() {
   renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
-    folderName: 'Sc4webp',
     folderName: 'Sc4webp',
     startFrame: 76,
     endFrame: 108,
@@ -1439,7 +1560,6 @@ function renderSc4ImagesReversedPart3() {
 function renderSc4ImagesReversedPart4() {
   renderImagesWithCanvas({
     canvasId: 'Sc4-sequence',
-    assetPath: '/assets/Sc4webp/Sequence_cam_04.',
     folderName: 'Sc4webp',
     startFrame: 108,
     endFrame: 148,
@@ -1447,6 +1567,8 @@ function renderSc4ImagesReversedPart4() {
     reverse: true
   });
 }
+
+// Section 12:
 
 async function renderLogoImages() {
   if (isRendering) return;
@@ -1456,11 +1578,12 @@ async function renderLogoImages() {
   infiniteLoopCanvas = 'Logo-sequence';
   await renderImagesWithCanvas({
     canvasId: 'Logo-sequence',
-    assetPath: '/assets/01-Logo/01-Logo',
     folderName: '01-Logo',
     duration: 3000,
   });
 }
+
+// Section 15:
 
 async function renderSequence_cam_03Images() {
   if (isRendering) return;
@@ -1470,7 +1593,6 @@ async function renderSequence_cam_03Images() {
   infiniteLoopCanvas = 'Sequence_cam_03';
   await renderImagesWithCanvas({
     canvasId: 'Sequence_cam_03',
-    assetPath: '/assets/Sequence_cam_03/Sequence_cam_03_0',
     folderName: 'Sequence_cam_03',
     duration: 10000,
   });
