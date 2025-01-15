@@ -238,6 +238,11 @@ nav .logo {
   z-index: 10;
 }
 
+#scroll-indicator div {
+  display: flex;
+  align-items: center;
+}
+
 #scroll-indicator.visible {
   opacity: 1;
 }
@@ -247,8 +252,9 @@ nav .logo {
 }
 
 #scroll-indicator div img {
-  width: 50px;
+  width: 1.1rem;
   height: auto;
+  margin-right: 0.5rem;
 }
 
 /* Container 1 */
@@ -274,7 +280,7 @@ nav .logo {
   width: 45vw;
   font-weight: 400;
   font-family: 'TT Hoves', sans-serif;
-  font-size: clamp(1.8rem, 2.5vw, 4rem);
+  font-size: clamp(28px, 2.7vw, 50px);
   opacity: 0;
   transition: opacity 1s ease;
   overflow: hidden;
@@ -317,7 +323,7 @@ body.scroll-enabled #section1 {
   align-items: center;
   justify-content: space-between;
   position: relative;
-  padding: 1rem;
+  padding: 3rem;
   overflow: hidden;
   width: 100%;
 }
@@ -325,6 +331,8 @@ body.scroll-enabled #section1 {
 .section2-container h2 {
   grid-column: 1;
   padding-right: 1rem;
+  font-size: clamp(30px, 3.3vw, 90px);
+  font-weight: 400;
 }
 
 #keyboard-sequence {
@@ -455,19 +463,25 @@ ul {
   width: 25vw;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.8rem;
   text-align: start;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 #section6 h2 {
   font-family: 'TT Hoves', sans-serif;
-  font-size: clamp(0.5rem, 2vw, 4rem);
+  font-size: clamp(22px, 2vw, 4rem);
+  font-weight: 400;
+}
+
+#section6 div div p {
+  color: #FFFFFFB8;
+  line-height: 26px;
   font-weight: 400;
 }
 
 #section6 p {
-  font-size: clamp(0.5rem, 1vw, 4rem);
+  font-size: clamp(14px, 1vw, 4rem);
 }
 
 #Sc4-sequence {
@@ -527,8 +541,8 @@ ul {
 
 .card {
   transform: translateY(180%);
-  width: 20rem;
-  height: 25rem;
+  width: 19vw;
+  height: 25vw;
   background-color: white;
   border: 1px solid #00234029;
   color: #0F151A;
@@ -542,6 +556,20 @@ ul {
   position: absolute;
   transform-origin: center;
   padding: 1.5rem;
+}
+
+.card img {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  width: 20%;
+}
+
+.card:nth-child(3) img {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  width: 30%;
 }
 
 .card-content {
@@ -563,6 +591,7 @@ ul {
   display: flex;
   flex-direction: column;
   font-weight: 400;
+  font-size: clamp(22px, 1.6vw, 4rem);
 }
 
 .card-line {
@@ -671,7 +700,7 @@ ul {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('assets/Sequence_cam_01/Sequence_cam_01_00419.webp');
+  background-image: url('assets/images/Section8.svg');
   background-size: cover;
   background-position: center;
   z-index: 48;
@@ -756,6 +785,8 @@ ul {
 }
 
 #section10Title, #section11Title {
+  position: absolute;
+  top: 10%;
   z-index: 57;
 }
 
@@ -767,20 +798,20 @@ ul {
 
 #dancers,
 #notebook {
-  scale: 1.2;
   position: absolute;
   top: 0;
   width: 100vw;
-  height: 100%;
+  /* height: 115%; */
   object-fit: cover;
 }
 
 #column-section10,
 #column-section11 {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
-  width: 30%;
+  top: 11%;
+  right: 4vw;
+  width: 30vw;
+  max-width: 310px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -799,8 +830,17 @@ ul {
 
 #column-section10 p,
 #column-section11 p {
-  font-size: clamp(0.7rem, 14px, 4rem);
+  padding-bottom: 0.6rem;
+  line-height: 20px;
+  font-size: clamp(12px, 0.5rem, 4rem);
   color: #FFFFFFB8;
+  font-weight: 300;
+}
+
+#column-section10 h3,
+#column-section11 h3 {
+  font-weight: 400;
+  font-size: clamp(18px, 1.2vw, 26px);
 }
 
 #column-section10 span,
@@ -814,6 +854,7 @@ ul {
   backdrop-filter: blur(10px);
   border-radius: 1rem;
   padding: 1rem;
+  margin-top: 3vw;
   display: flex;
   gap: 2rem;
 }
@@ -855,9 +896,14 @@ ul {
   left: 5%;
 }
 
+#section12span {
+  font-size: clamp(16px, 2vw, 20px);
+}
+
 #section12-table>tbody>tr {
   display: grid;
   grid-template-columns: 2fr 1fr;
+  padding-top: 1.5rem;
 }
 
 #section12-table td {
@@ -904,17 +950,10 @@ ul {
   position: absolute;
   right: 2rem;
   top: 30%;
-  width: 35%;
+  width: 35vw;
+  max-width: 400px;
+  font-size: clamp(12px, 1vw, 16px);
   color: #0F151A;
-}
-
-#section12>span {
-  left: 1rem;
-  position: absolute;
-  top: 40%;
-  width: 90%;
-  color: #0F151A;
-  font-weight: 500;
 }
 
 #section12 h4 {
@@ -932,15 +971,15 @@ ul {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-top: 5vh;
-  margin-left: 5vw;
+  margin-top: 10vh;
+  margin-left: 2vw;
 }
 
 .titleBlack h2 {
   font-family: 'TT Hoves', sans-serif;
   font-weight: 400;
-  font-size: clamp(4rem, 3.2vw, 5rem);
-  line-height: 1.2;
+  font-size: clamp(3.6vw, 50vw, 5rem);
+  line-height: 1;
   color: #0F151A;
   overflow: hidden;
 }
@@ -969,7 +1008,7 @@ ul {
   align-items: center;
 }
 
-.card-container {
+#card-container {
   display: flex;
   justify-content: center;
   align-items: end;
@@ -1004,6 +1043,14 @@ ul {
   font-size: clamp(0.8rem, 12px, 4rem);
   color: #0F151A8F;
   width: 55%;
+}
+
+.card2 img {
+  width: 8rem;
+  height: auto;
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
 }
 
 #section13 .title h2,
@@ -1063,6 +1110,12 @@ ul {
   width: 90%;
 }
 
+.card3 img {
+  width: 4rem;
+  height: auto;
+  position: absolute;
+  top: 10%;
+}
 /* ===================== Section #15 ===================== */
 
 #section15 {
@@ -1089,6 +1142,8 @@ ul {
   position: absolute;
   font-size: clamp(1.3rem, 1vw, 5rem);
   width: 35%;
+  max-width: 450px;
+  font-weight: 400;
   top: 2rem;
   left: 2rem;
 }
@@ -1131,6 +1186,14 @@ ul {
   border-bottom: 1px solid #FFFFFF14;
 }
 
+#right-column li img {
+  opacity: 1;
+  width: 1.8rem;
+  height: auto;
+  display: flex;
+  position: static;
+}
+
 #Sequence_cam_03 {
   width: 100vw;
   height: 100%;
@@ -1157,6 +1220,15 @@ ul {
 
   nav .logo {
     width: 2.5rem;
+  }
+
+  .title {
+    margin-top: 10vh;
+  }
+
+  .location {
+    position: absolute;
+    left: 7vw;
   }
 
   .card {
@@ -1234,8 +1306,62 @@ ul {
     width: 90%;
     font-size: clamp(2rem, 2.5vw, 4rem);
   }
+#section10,
+  #section11 {
+    color: white;
+    background-color: var(--color-1);
+    position: absolute;
+    transform: translateY(100%);
+    height: 100vh;
+    width: 100vw;
+    z-index: 55;
+    overflow: hidden;
+  }
+
+  #section10>div:nth-child(1),
+  #section11>div:nth-child(1) {
+    position: absolute;
+    top: 10%;
+  }
+
+  #dancers,
+  #notebook {
+    display: none;
+  }
 
   #column-section10,
+  #column-section11 {
+    position: absolute;
+    top: 40%;
+    left: 5%;
+    width: 90vw;
+    max-width: 2000px;
+    gap: 3rem;
+  }
+
+  #column-section10>div>h4,
+  #column-section11>div>h4 {
+    margin-bottom: 1rem;
+  }
+
+  #column-section10 p,
+  #column-section11 p {
+    font-size: clamp(0.7rem, 12px, 4rem);
+    color: #FFFFFFB8;
+    margin-top: 10px;
+  }
+
+  #column-section10 span,
+  #column-section11 span {
+    color: #FFFFFF;
+  }
+
+  #column-section10>div,
+  #column-section11>div {
+    padding-bottom: 1.5rem;
+    border-bottom: 3px dashed #9B93FF3D;
+  }
+  /* #column-section10,
   #column-section11 {
     top: 40%;
     width: 40%;
@@ -1243,7 +1369,7 @@ ul {
 
   .profile-card {
     margin-top: 5%;
-  }
+  } */
 
   .titleBlack h2 {
     font-size: clamp(2.5rem, 3.2vw, 5rem);
@@ -1326,6 +1452,13 @@ ul {
 
   #section13 {
     padding: 25% 4rem 4rem 4rem;
+  }
+
+  .card3 img {
+    width: 7rem;
+    height: auto;
+    position: absolute;
+    top: 10%;
   }
 
   #section13 .title h2,
@@ -1483,14 +1616,16 @@ ul {
   #section3 .section2-container,
   #section4 .section2-container {
     display: flex;
-    height: 70%;
+    height: 80%;
     flex-direction: column;
     text-align: center;
     align-self: center;
+    padding: 20px;
   }
 
   #section2 .section2-container {
     display: flex;
+    padding: 0;
     height: 50%;
     flex-direction: column;
     text-align: center;
@@ -1501,6 +1636,10 @@ ul {
   .section2-container p {
     width: 80%;
     font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+  }
+
+  #section6 div div p {
+    line-height: 22px;
   }
 
   #section5 h1 {
@@ -1551,60 +1690,7 @@ ul {
     font-size: clamp(2em, 2.5vw, 4rem);
   }
 
-  #section10,
-  #section11 {
-    color: white;
-    background-color: var(--color-1);
-    position: absolute;
-    transform: translateY(100%);
-    height: 100vh;
-    width: 100%;
-    z-index: 55;
-    overflow: hidden;
-  }
-
-  #section10>div:nth-child(1),
-  #section11>div:nth-child(1) {
-    position: absolute;
-    top: 10%;
-  }
-
-  #dancers,
-  #notebook {
-    display: none;
-  }
-
-  #column-section10,
-  #column-section11 {
-    position: absolute;
-    top: 40%;
-    left: 5%;
-    width: 90%;
-    gap: 3rem;
-  }
-
-  #column-section10>div>h4,
-  #column-section11>div>h4 {
-    margin-bottom: 1rem;
-  }
-
-  #column-section10 p,
-  #column-section11 p {
-    font-size: clamp(0.7rem, 12px, 4rem);
-    color: #FFFFFFB8;
-    margin-top: 10px;
-  }
-
-  #column-section10 span,
-  #column-section11 span {
-    color: #FFFFFF;
-  }
-
-  #column-section10>div,
-  #column-section11>div {
-    padding-bottom: 1.5rem;
-    border-bottom: 3px dashed #9B93FF3D;
-  }
+  
 
   #section13 {
     padding: 0 4rem 4rem 4rem;
@@ -1643,6 +1729,10 @@ ul {
     font-size: clamp(1.4rem, 12px, 4rem);
   }
 
+  .card3 img {
+    width: 3rem;
+  }
+
   .card2 h3 {
     font-weight: 400;
     font-size: clamp(1.3rem, 1vw, 5rem);
@@ -1662,7 +1752,11 @@ ul {
 
   #section15 h2 {
     font-size: clamp(1.7rem, 1vw, 5rem);
-    margin-top: 15%;
+    margin-top: 0;
+  }
+
+  #right-column li {
+    padding: 0.8rem 0;
   }
 
   #right-column li h4 {
@@ -1671,6 +1765,11 @@ ul {
 
   #right-column p {
     font-size: clamp(0.9rem, 12px, 4rem);
+  }
+
+  #section15 h2 {
+    font-size: clamp(1.3rem, 1vw, 5rem);
+    width: 100%;
   }
 
 }
